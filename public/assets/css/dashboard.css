@@ -1,0 +1,93 @@
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        #sidebar {
+            width: 250px;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background-color: #f8f9fa;
+            padding-top: 20px;
+            transform: translateX(0);
+            transition: all 0.3s;
+        }
+
+        #sidebar.hide {
+            transform: translateX(-100%);
+        }
+
+        #sidebar .nav-link {
+            color: #333;
+        }
+
+        #sidebar .nav-link:hover {
+            background-color: #e0e0e0;
+            border-radius: 5px;
+        }
+
+        .nav-link .active {
+            color: #c10000;
+        }
+
+        .nav-link .active{
+            background-color: #510e0e;
+            border-radius: 5px;
+        }
+
+        #sidebar .nav-link .fas {
+            margin-right: 10px;
+        }
+
+        #sidebar .logout-btn {
+            position: absolute;
+            bottom: 20px;
+            width: 100%;
+        }
+
+        /* Toggler button (Hamburger Menu) */
+        .toggle-btn {
+            display: none;
+            position: fixed;
+            top: 15px;
+            left: 15px;
+            z-index: 1000;
+            font-size: 24px;
+            background: none;
+            border: none;
+            color: #333;
+        }
+
+        /* Responsive behavior */
+        @media (max-width: 768px) {
+            #sidebar {
+                transform: translateX(-100%);
+            }
+            #sidebar.show {
+                transform: translateX(0);
+            }
+            .toggle-btn {
+                display: block;
+            }
+            .content {
+                margin-left: 0;
+                padding-top: 50px;
+            }
+        }
+
+        /* Page content adjustment */
+        .content {
+            margin-left: 250px;
+            padding: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .content {
+                margin-left: 0;
+            }
+        }
+
+        .form-select{
+            border-radius: 16px;
+        }

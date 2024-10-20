@@ -15,6 +15,9 @@
                       <a class="nav-link {{ request()->is('about') ? 'active' : null }}" href="{{ route('about') }}">About Us</a>
                     </li>
                     <li class="nav-item mx-4">
+                      <a class="nav-link {{ request()->is('statistics') ? 'active' : null }}" href="{{ route('statistics') }}">Statistics</a>
+                    </li>
+                    <li class="nav-item mx-4">
                       <a class="nav-link {{ request()->is('contact') ? 'active' : null }}" href="{{ route('contact') }}">Contact Us</a>
                     </li>
                   </ul>

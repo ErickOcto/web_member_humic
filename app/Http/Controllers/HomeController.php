@@ -17,4 +17,8 @@ class HomeController extends Controller
     public function contact(){
         return view('pages.contact');
     }
+
+    public function statistics(){
+        return view('pages.statistics');
+    }
 }

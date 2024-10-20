@@ -89,5 +89,17 @@
         }
 
         .form-select{
-            border-radius: 16px;
+            border-radius: 12px;
+        }
+
+        .form-control{
+            border-radius: 12px;
+        }
+
+        .gradient-red{
+            color: #c10000;
+        }
+
+        .btn{
+            border-radius: 12px;
         }

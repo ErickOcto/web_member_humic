@@ -2,7 +2,7 @@
 
 @section('dashboard-content')
 
-    <h2><b>Project Gallery Review</b></h2>
+    <h2 class="gradient-red"><b>Project Gallery Review</b></h2>
 
 <form method="POST" action="" enctype="multipart/form-data">
     @csrf

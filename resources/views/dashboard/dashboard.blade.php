@@ -2,7 +2,7 @@
 
 @section('dashboard-content')
 
-    <h2><b>Dashboard</b></h2>
+    <h2 class="gradient-red"><b>Dashboard</b></h2>
 
     <div class="row">
         <div class="col-12 col-md-6 col-lg-4">

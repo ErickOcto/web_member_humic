@@ -2,7 +2,7 @@
 
 @section('dashboard-content')
 
-    <h2><b>Member History</b></h2>
+    <h2 class="gradient-red"><b>Member History</b></h2>
 
     <div class="row">
         <div class="col-12 mt-5">

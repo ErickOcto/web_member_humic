@@ -47,7 +47,7 @@
     <section class="container my-4">
         <div class="row">
             <div class="col-12 col-lg-6">
-                <div class="shadow-lg p-3 mb-4 bg-body-tertiary" style="border-radius: 24px">
+                 <div class="shadow-lg p-3 mb-4 bg-body-tertiary" style="border-radius: 24px">
                   <canvas id="myChart"></canvas>
                 </div>
             </div>

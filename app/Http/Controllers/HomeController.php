@@ -21,4 +21,8 @@ class HomeController extends Controller
     public function statistics(){
         return view('pages.statistics');
     }
+
+    public function project_gallery(){
+        return view('pages.project_gallery');
+    }
 }

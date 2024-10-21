@@ -10,6 +10,7 @@ Route::get('/', [HomeController::class, 'home'])->name('home');
 Route::get('/about', [HomeController::class, 'about'])->name('about');
 Route::get('/contact', [HomeController::class, 'contact'])->name('contact');
 Route::get('/statistics', [HomeController::class, 'statistics'])->name('statistics');
+Route::get('/project_gallery', [HomeController::class, 'project_gallery'])->name('project_gallery');
 
 // Route::get('/dashboard', [DashboardController::class, 'dashboard'])->name('dashboard');
 

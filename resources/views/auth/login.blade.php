@@ -5,7 +5,7 @@
     body{
         max-height: 100vh !important;
 
-        
+
     }
 </style>
 @endpush
@@ -35,7 +35,7 @@
                         <b>Ada yang salah dengan password</b>@enderror
                   </div>
                   <div class="d-grid">
-                    <button type="submit" class="btn btn-danger">LOGIN</button>
+                    <button type="submit" class="btn btn-primary">LOGIN</button>
                   </div>
                 </form>
             </div>

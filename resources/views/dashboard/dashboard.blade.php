@@ -1,11 +1,49 @@
 @extends('layouts.dashboard')
 
+@push('css_scripts')
+    <style>
+#showEntries {
+    display: inline-block;
+    width: auto;
+    margin: 0 10px;
+}
+
+.form-group label {
+    font-weight: bold;
+}
+
+.form-group span {
+    margin-left: 5px;
+}
+
+    </style>
+@endpush
+
 @section('dashboard-content')
 
     <h2 class="gradient-red"><b>Dashboard</b></h2>
 
     <div class="row">
-        <div class="col-12 col-md-6 col-lg-4">
+        <div class="col-12 col-md-6 col-lg-3">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <div class="form-group">
+                    <label for="showEntries" class="form-label text-danger">Show</label>
+                    <select class="form-select" id="showEntries">
+                        <option value="10">10</option>
+                        <option value="25">25</option>
+                        <option value="50">50</option>
+                        <option value="100">100</option>
+                    </select>
+                    <span class="text-danger">entries</span>
+                </div>
+            </div>
+
+            <div class="input-group mb-3">
+              <input type="text" class="form-control" placeholder="Search..." aria-label="Recipient's username" aria-describedby="button-addon2">
+              <button class="btn btn-outline-secondary" type="button" id="button-addon2"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-search"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></button>
+            </div>
+        </div>
+        <div class="col-12 col-md-6 col-lg-3">
             <select class="form-select" aria-label="Default select example">
               <option selected>Prodi: All</option>
               <option value="1">One</option>
@@ -13,7 +51,7 @@
               <option value="3">Three</option>
             </select>
         </div>
-        <div class="col-12 col-md-6 col-lg-4">
+        <div class="col-12 col-md-6 col-lg-3">
             <select class="form-select" aria-label="Default select example">
               <option selected>Fakultas: All</option>
               <option value="1">One</option>
@@ -21,7 +59,7 @@
               <option value="3">Three</option>
             </select>
         </div>
-        <div class="col-12 col-md-6 col-lg-4">
+        <div class="col-12 col-md-6 col-lg-3">
             <select class="form-select" aria-label="Default select example">
               <option selected>Cabang: All</option>
               <option value="1">One</option>
@@ -29,8 +67,8 @@
               <option value="3">Three</option>
             </select>
         </div>
-        <div class="col-12 mt-5">
-            <div class="table-responsive" style="background-color: #f6f6f6; border-radius: 16px">
+        <div class="col-12 mt-2 shadow-lg" style="border-radius: 20px">
+            <div class="table-responsive">
                 <table class="table table-striped-rows table-hover align-middle">
                     <thead>
                         <tr>
@@ -58,7 +96,24 @@
                           <td>INFORMATIKA</td>
                           <td>BANDUNG</td>
                           <td>
-                            <button type="button" class="btn btn-info text-white" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                            <button type="button" class="btn btn-secondary text-white" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                Detail
+                            </button>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>010101</td>
+                          <td>Putu Hary Gunawan</td>
+                          <td>PHN</td>
+                          <td>putu@lecturer.telkomuniversity.ac.id</td>
+                          <td>
+                            <span class="badge rounded-pill text-bg-success">Success</span>
+                          </td>
+                          <td>INFORMATIKA</td>
+                          <td>INFORMATIKA</td>
+                          <td>BANDUNG</td>
+                          <td>
+                            <button type="button" class="btn btn-secondary text-white" data-bs-toggle="modal" data-bs-target="#exampleModal">
                                 Detail
                             </button>
                           </td>

@@ -175,39 +175,36 @@
 
 @push('js_scripts')
 <script>
-        const ctx = document.getElementById('myChart').getContext('2d');
-        const myChart = new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels: ['2024', '2025', '2026', '2027', '2028'],
-                datasets: [{
+    const ctx = document.getElementById('myChart').getContext('2d');
+    const myChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ['2024', '2025', '2026', '2027', '2028'],
+            datasets: [
+                {
                     label: 'Jumlah Member',
-                    data: [35, 40, 15, 15, 10],
-                    backgroundColor: [
-                        '#e74c3c', // Red bars
-                        '#ff7979', // Light red bars
-                        '#e74c3c',
-                        '#ff7979',
-                        '#e74c3c'
-                    ],
-                    borderColor: [
-                        '#e74c3c',
-                        '#ff7979',
-                        '#e74c3c',
-                        '#ff7979',
-                        '#e74c3c'
-                    ],
+                    data: [35, 40, 10, 10, 10], // Data untuk jumlah member
+                    backgroundColor: '#e74c3c', // Warna merah untuk jumlah member
+                    borderColor: '#e74c3c',
                     borderWidth: 1
-                }]
-            },
-            options: {
-                responsive: true,
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    }
+                },
+                {
+                    label: 'Status Aktif',
+                    data: [15, 15, 10, 10, 10], // Data untuk status aktif
+                    backgroundColor: '#ff7979', // Warna pink untuk status aktif
+                    borderColor: '#ff7979',
+                    borderWidth: 1
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true
                 }
             }
-        });
-    </script>
+        }
+    });
+</script>
 @endpush

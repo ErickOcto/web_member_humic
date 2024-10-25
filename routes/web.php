@@ -15,7 +15,7 @@ Route::get('/project_gallery', [HomeController::class, 'project_gallery'])->name
 // Route::get('/dashboard', [DashboardController::class, 'dashboard'])->name('dashboard');
 
 // Admin Panel routes
-Route::middleware(['auth', 'verified'])->group(function () {
+// Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'dashboard'])->name('dashboard');
     Route::get('/create-member', [DashboardController::class, 'memberCreate'])->name('member.create');
     //Route::post('/create-member', [DashboardController::class, 'memberStore'])->name('member.store');
@@ -23,7 +23,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/project-gallery', [DashboardController::class, 'projectGallery'])->name('projectGallery.list');
     Route::get('/project-gallery/approval', [DashboardController::class, 'projectGalleryApproval'])->name('projectGallery.approval');
     Route::get('/member-history', [DashboardController::class, 'memberHistory'])->name('member.history');
-});
+// });
 
 // Member panel routes
 //Route::middleware(['auth', 'verified'])->group(function () {

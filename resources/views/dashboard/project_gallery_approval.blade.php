@@ -4,10 +4,16 @@
 
     <h2 class="gradient-red"><b>Project Gallery Review</b></h2>
 
+<div class="col-12 col-md-10 offset-md-1 col-lg-8 offset-lg-2">
 <form method="POST" action="" enctype="multipart/form-data">
     @csrf
     <div class="card" style="border-radius: 16px; border: 0px; background-color: #f6f6f6;">
         <div class="card-body">
+            <div class="mb-3">
+                <div class="text-center">
+                    <h3><b>Preview</b></h3>
+                </div>
+            </div>
 
             <div class="mb-3">
                 <div class="row">
@@ -29,31 +35,30 @@
                 <textarea class="form-control" id="description" name="description" placeholder="Type the description here"></textarea>
             </div>
 
-            <div class="row">
-                <div class="col-12 col-md-6">
-                    <!-- Date -->
-                    <div class="mb-3">
-                        <label for="date" class="form-label">Date</label>
-                        <input type="date" class="form-control" id="date" name="date">
-                    </div>
-                </div>
-                <div class="col-12 col-md-6">
-                    <!-- Time -->
-                    <div class="mb-3">
-                        <label for="time" class="form-label">Time</label>
-                        <input type="time" class="form-control" id="time" name="time">
-                    </div>
+            <div class="col-12">
+                <!-- Date -->
+                <div class="mb-3">
+                    <label for="date" class="form-label">Date</label>
+                    <input type="date" class="form-control" id="date" name="date">
                 </div>
             </div>
 
-            <button type="submit" class="btn btn-danger">DENY</button>
-            <button type="submit" class="btn btn-warning">REVISION</button>
-            <button type="submit" class="btn btn-success">APPROVE</button>
+            <!-- comment -->
+            <div class="mb-3">
+                <label for="comment" class="form-label">Comment</label>
+                <textarea class="form-control" id="comment" name="description" placeholder="Type the description here"></textarea>
+            </div>
+
+            <div class="col-12 text-center">
+                <button type="submit" style="min-width: 150px" class="btn btn-danger">DENY</button>
+                <button type="submit" style="min-width: 150px" class="btn btn-warning">REVISION</button>
+                <button type="submit" style="min-width: 150px" class="btn btn-success">APPROVE</button>
+            </div>
 
         </div>
 
     </div>
 </form>
-
+</div>
 
 @endsection

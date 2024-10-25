@@ -7,6 +7,7 @@
       padding: 20px;
       color: #fff;
       font-weight: bold;
+      background-color:
     }
     .prodi-box {
       background-color: #4a90e2;
@@ -15,7 +16,7 @@
       background-color: #7ed321;
     }
     .aktif-box, .cabang-box {
-      background-color: #ecf0f1;
+      background-color: #369FFF;
       color: #2c3e50;
     }
     .view-detail {
@@ -33,6 +34,47 @@
       width: 80px;
       height: 80px;
     }
+.custom-card {
+    border-radius: 20px;
+    background-color: #f0f8ff;
+    padding: 20px;
+    color: #333;
+    text-align: left;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    height: 200px;
+}
+
+.custom-card h6 {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #6c757d;
+    margin-bottom: 10px;
+}
+
+.stat-number {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #007bff;
+    position: relative;
+    padding-left: 20px;
+}
+
+.stat-number::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 5px;
+    width: 5px;
+    height: 80%;
+    background-color: #007bff;
+    border-radius: 10px;
+}
+
+
   </style>
 @endpush
 
@@ -68,12 +110,13 @@
                     </div>
 
                     <!-- Aktif Box -->
-                    <div class="col-md-6 mb-4" style="height:auto">
-                      <div class="info-box aktif-box">
-                        <h4><b>AKTIF</b></h4>
-                        <h4 class="text-danger"><b>44 Person</b></h4>
-                      </div>
+                    <div class="col-md-6">
+                        <div class="custom-card card-person">
+                            <h6>AKTIF</h6>
+                            <div class="stat-number">44 Person</div>
+                        </div>
                     </div>
+
                 </div>
 
                 <div class="row">
@@ -92,11 +135,11 @@
                     </div>
 
                     <!-- Cabang Box -->
-                    <div class="col-md-6 mb-4" style="height:auto">
-                      <div class="info-box aktif-box">
-                        <h4><b>FAKULTAS</b></h4>
-                        <h4 class="text-danger"><b>7 Fakultas</b></h4>
-                      </div>
+                    <div class="col-md-6">
+                        <div class="custom-card card-person">
+                            <h6>Cabang</h6>
+                            <div class="stat-number">4</div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -107,40 +150,36 @@
 
 @push('js_scripts')
 <script>
-    // Select the canvas element
     const ctx = document.getElementById('myChart').getContext('2d');
-
-    // Define the data for the chart
-    const data = {
-      labels: ['2024', '2025', '2026', '2027', '2028'],
-      datasets: [{
-        label: 'Jumlah Member',
-        data: [35, 40, 40, 10, 10],
-        backgroundColor: 'rgba(255, 99, 132, 0.2)',
-        borderColor: 'rgba(255, 99, 132, 1)',
-        borderWidth: 1
-      }]
-    };
-
-    // Create the chart
     const myChart = new Chart(ctx, {
-      type: 'bar', // Type of chart
-      data: data,  // Data for the chart
-      options: {
-        scales: {
-          y: {
-            beginAtZero: true
-          }
+        type: 'bar',
+        data: {
+            labels: ['2024', '2025', '2026', '2027', '2028'],
+            datasets: [
+                {
+                    label: 'Jumlah Member',
+                    data: [35, 40, 10, 10, 10], // Data untuk jumlah member
+                    backgroundColor: '#e74c3c', // Warna merah untuk jumlah member
+                    borderColor: '#e74c3c',
+                    borderWidth: 1
+                },
+                {
+                    label: 'Status Aktif',
+                    data: [15, 15, 10, 10, 10], // Data untuk status aktif
+                    backgroundColor: '#ff7979', // Warna pink untuk status aktif
+                    borderColor: '#ff7979',
+                    borderWidth: 1
+                }
+            ]
         },
-        plugins: {
-          legend: {
-            display: true,
-            labels: {
-              color: 'rgb(255, 99, 132)'
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
             }
-          }
         }
-      }
     });
-  </script>
+</script>
 @endpush

@@ -23,7 +23,7 @@
                 @csrf
                   <div class="my-3 text-start">
                     <label for="exampleInputEmail1" class="form-label">Username</label>
-                    <input type="text" class="form-control @error('username') is-invalid @enderror" id="exampleInputEmail1" aria-describedby="emailHelp" name="username">
+                    <input type="text" name="username" class="form-control @error('username') is-invalid @enderror" id="exampleInputEmail1" aria-describedby="emailHelp" name="username">
                     @error('username')
                         <b>Ada yang salah dengan username</b>
                     @enderror

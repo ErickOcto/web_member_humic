@@ -84,40 +84,29 @@
                         </tr>
                     </thead>
                     <tbody>
+                        @foreach ($members as $member)
                         <tr>
-                          <td>010101</td>
-                          <td>Putu Hary Gunawan</td>
+                          <td>{{ $member->NIP }}</td>
+                          <td>{{ $member->name }}</td>
                           <td>PHN</td>
-                          <td>putu@lecturer.telkomuniversity.ac.id</td>
+                          <td>{{ $member->email }}</td>
                           <td>
-                            <span class="badge rounded-pill text-bg-success">Success</span>
+                            @if($member->status)
+                                <span class="badge rounded-pill text-bg-success">Active</span>
+                            @else
+                                <span class="badge rounded-pill text-bg-danger">Inactive</span>
+                            @endif
                           </td>
-                          <td>INFORMATIKA</td>
-                          <td>INFORMATIKA</td>
-                          <td>BANDUNG</td>
+                          <td>{{ $member->department }}</td>
+                          <td>{{ $member->faculty }}</td>
+                          <td>bas</td>
                           <td>
                             <button type="button" class="btn btn-secondary text-white" data-bs-toggle="modal" data-bs-target="#exampleModal">
                                 Detail
                             </button>
                           </td>
                         </tr>
-                        <tr>
-                          <td>010101</td>
-                          <td>Putu Hary Gunawan</td>
-                          <td>PHN</td>
-                          <td>putu@lecturer.telkomuniversity.ac.id</td>
-                          <td>
-                            <span class="badge rounded-pill text-bg-success">Success</span>
-                          </td>
-                          <td>INFORMATIKA</td>
-                          <td>INFORMATIKA</td>
-                          <td>BANDUNG</td>
-                          <td>
-                            <button type="button" class="btn btn-secondary text-white" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                                Detail
-                            </button>
-                          </td>
-                        </tr>
+                        @endforeach
                     </tbody>
                 </table>
             </div>

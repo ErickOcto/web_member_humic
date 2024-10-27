@@ -24,7 +24,11 @@
                       <a class="nav-link {{ request()->is('contact') ? 'active' : null }}" href="{{ route('contact') }}">Contact Us</a>
                     </li>
                   </ul>
+                  @if(!Auth::check())
                     <a href="{{ route('login') }}" class="btn btn-outline-dark" style="width: 160px;">LOGIN</a>
+                  @else
+                    <p class="my-auto">Hello!, <b class="text-danger">{{ Auth::user()->name }}</b></p>
+                  @endif
                 </div>
               </div>
             </nav>

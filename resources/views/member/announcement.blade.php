@@ -17,7 +17,7 @@
     <h2 class="gradient-red"><b>Announcement</b></h2>
 
     <div class="row">
-        <div class="col-12 col-md-9 col-lg-7">
+        <div class="col-12">
             {{-- Iteration --}}
             <div class="card-custom mb-2">
                 <div class="card-custom-content">

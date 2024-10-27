@@ -102,9 +102,16 @@
             border-radius: 12px;
         }
 
-        .badge {
+        .badge.rounded-pill.text-bg-success {
             background-color: #EBF9F1 !important;
             color: #1F9254 !important;
+            padding: 12px 16px;
+            font-weight: 600
+        }
+
+        .badge.rounded-pill.text-bg-danger {
+            background-color: #ffcfcf !important;
+            color: #930000 !important;
             padding: 12px 16px;
             font-weight: 600
         }

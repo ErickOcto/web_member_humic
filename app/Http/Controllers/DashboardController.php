@@ -2,13 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class DashboardController extends Controller
 {
     // Dashboard
     public function dashboard(){
-        return view('dashboard.dashboard');
+        $members = User::where('isAdmin', 1)->get();
+        return view('dashboard.dashboard', compact('members'));
     }
 
     // Member Controller

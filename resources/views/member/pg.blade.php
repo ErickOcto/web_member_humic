@@ -2,7 +2,7 @@
 
 @section('dashboard-content')
 
-    <h2 class="gradient-red"><b>Project List</b></h2>
+    <h2 class="gradient-red"><b>Project Gallery</b></h2>
 
     <section class="row">
         <div class="col-12 text-end">

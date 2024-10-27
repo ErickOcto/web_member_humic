@@ -44,4 +44,19 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function eduBackground()
+    {
+        return $this->hasMany(EduBackground::class);
+    }
+
+    public function projectGallery()
+    {
+        return $this->hasMany(ProjectGallery::class);
+    }
+
+    public function announcements()
+    {
+        return $this->belongsToMany(Announcement::class, 'user_announcement')->withPivot('status');
+    }
 }

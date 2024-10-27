@@ -28,9 +28,10 @@
             border-radius: 5px;
         }
 
-         #sidebar a.nav-link .active {
-            background-color: #72c6ff !important;
+        #sidebar a.nav-link.active {
+            background-color: #1b5af81c !important;
             border-radius: 5px;
+            color: blue;
         }
 
         #sidebar .nav-link .fas {

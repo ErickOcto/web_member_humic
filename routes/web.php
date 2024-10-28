@@ -18,7 +18,7 @@ Route::get('/project_gallery', [HomeController::class, 'project_gallery'])->name
 Route::middleware(['auth', 'verified', 'admin'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'dashboard'])->name('dashboard');
     Route::get('/create-member', [DashboardController::class, 'memberCreate'])->name('member.create');
-    //Route::post('/create-member', [DashboardController::class, 'memberStore'])->name('member.store');
+    Route::post('/create-member', [DashboardController::class, 'memberStore'])->name('member.store');
     Route::get('/create-announcement', [DashboardController::class, 'announcementCreate'])->name('announcement.create');
     Route::get('/project-gallery', [DashboardController::class, 'projectGallery'])->name('projectGallery.list');
     Route::get('/project-gallery/approval', [DashboardController::class, 'projectGalleryApproval'])->name('projectGallery.approval');

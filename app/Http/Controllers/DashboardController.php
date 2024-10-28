@@ -9,7 +9,7 @@ class DashboardController extends Controller
 {
     // Dashboard
     public function dashboard(){
-        $members = User::where('isAdmin', 1)->get();
+        $members = User::where('isAdmin', 0)->get();
         return view('dashboard.dashboard', compact('members'));
     }
 
@@ -18,9 +18,28 @@ class DashboardController extends Controller
         return view('dashboard.member_create');
     }
 
-    public function memberStore(){
-        //
+    public function memberStore(Request $request){
+        //dd($request->all());
+        if($request->password != $request->retype_password){
+            return redirect()->back()->with(['error' => 'Member gagal ditambahkan, periksa input Anda.']);
+        }
+        try {
+            $validated = $request->validate([
+                'branch' => 'required|string',
+                'password' => 'required|string',
+                'email' => 'required|string|unique:users,email',
+                'username' => 'required|string|unique:users,username',
+                'name' => 'required|string',
+            ]);
+            User::create($validated);
+            return redirect()->back()->with(['success' => 'Member sukses ditambahkan']);
+
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return redirect()->back()->withErrors($e->errors())->with(['error' => 'Member gagal ditambahkan, periksa input Anda.']);
+        }
     }
+
+
 
     // Announcement Controller
 

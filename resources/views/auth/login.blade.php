@@ -23,16 +23,16 @@
                 @csrf
                   <div class="my-3 text-start">
                     <label for="exampleInputEmail1" class="form-label">Username</label>
-                    <input type="text" name="username" class="form-control @error('username') is-invalid @enderror" id="exampleInputEmail1" aria-describedby="emailHelp" name="username">
+                    <input type="text" name="username" class="form-control @error('username') is-invalid @enderror" id="exampleInputEmail1" aria-describedby="emailHelp" name="username" required>
                     @error('username')
-                        <b>Ada yang salah dengan username</b>
+                        <b class="text-danger mt-5">Ups Ada yang salah, pastikan data benar</b>
                     @enderror
                   </div>
                   <div class="mb-3 text-start">
                     <label for="exampleInputPassword1" class="form-label @error('password') is-invalid @enderror">Password</label>
-                    <input type="password" class="form-control" id="exampleInputPassword1" name="password">
+                    <input type="password" class="form-control" id="exampleInputPassword1" name="password" required>
                     @error('password')
-                        <b>Ada yang salah dengan password</b>@enderror
+                        <b class="text-danger mt-5">Ups Ada yang salah, pastikan data benar</b>@enderror
                   </div>
                   <div class="d-grid">
                     <button type="submit" class="btn btn-primary">LOGIN</button>

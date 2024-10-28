@@ -88,7 +88,7 @@
                         <tr>
                           <td>{{ $member->NIP }}</td>
                           <td>{{ $member->name }}</td>
-                          <td>PHN</td>
+                          <td>{{ $member->code }}</td>
                           <td>{{ $member->email }}</td>
                           <td>
                             @if($member->status)
@@ -99,11 +99,11 @@
                           </td>
                           <td>{{ $member->department }}</td>
                           <td>{{ $member->faculty }}</td>
-                          <td>bas</td>
+                          <td>{{ $member->branch }}</td>
                           <td>
-                            <button type="button" class="btn btn-secondary text-white" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                            <a href="#" class=" text-body">
                                 Detail
-                            </button>
+                            </a>
                           </td>
                         </tr>
                         @endforeach

@@ -24,13 +24,15 @@ return new class extends Migration
             $table->boolean('gender')->nullable();
             $table->longText('address')->nullable();
             $table->date('birthday')->nullable();
-            $table->boolean('status')->nullable();
-            $table->bigInteger('NIP')->unique();
+            $table->boolean('status')->default(1);
+            $table->bigInteger('NIP')->unique()->nullable();
             $table->integer('position')->nullable();
             $table->string('profile_picture')->nullable();
             $table->string('position_name')->nullable();
             $table->boolean('isAdmin')->default(false);
             $table->timestamp('email_verified_at')->nullable();
+            $table->string('code')->nullable();
+            $table->string('branch')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

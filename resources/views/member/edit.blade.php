@@ -42,75 +42,102 @@
 
     <div class="row">
         <div class="col-12">
-            <form style="background-color: #f6f6f6; border-radius: 16px; padding: 16px">
+            <form method="POST" action="{{ route('member.put', Auth::user()->id) }}" style="background-color: #f6f6f6; border-radius: 16px; padding: 16px" enctype="multipart/form-data">
+                @method('PUT')
+                @csrf
                 <div class="row">
                     <div class="col-12 col-lg-6">
                         <div class="col-12">
                             <div class="mb-3">
                               <label class="form-label">Nama lengkap</label>
-                              <input type="text" class="form-control">
+                              <input required type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name', Auth::user()->name) }}">
+                              @error('name')
+                              <b class="text-danger"> {{ $message }}</b>
+                              @enderror
                             </div>
                         </div>
                         <div class="col-12">
                             <div class="mb-3">
                               <label class="form-label">NIP</label>
-                              <input type="number" class="form-control">
+                              <input required type="number" name="NIP" class="form-control @error('NIP') is-invalid @enderror" value="{{ old('NIP', Auth::user()->NIP) }}">
+                              @error('NIP')
+                              <b class="text-danger"> {{ $message }}</b>
+                              @enderror
                             </div>
                         </div>
                         <div class="col-12">
                             <div class="mb-3">
                                 <label class="form-label">Fakultas</label>
-                                <select class="form-select" aria-label="Default select example">
-                                  <option selected>Open this select menu</option>
-                                  <option value="1">One</option>
-                                  <option value="2">Two</option>
-                                  <option value="3">Three</option>
+                                <select name="faculty" required class="form-select" aria-label="Default select example">
+                                  <option value="Fakultas Informatika" {{ Auth::user()->faculty == "Fakultas Informatika" ? 'selected' : null }} >Fakultas Informatika</option>
+                                  <option value="Fakultas Ekonomi dan Bisnis" {{ Auth::user()->faculty == "Fakultas Ekonomi dan Bisnis" ? 'selected' : null }}>Fakultas Ekonomi dan Bisnis</option>
+                                  <option value="Fakultas Industri Kreatif" {{ Auth::user()->faculty == "Fakultas Industri Kreatif" ? 'selected' : null }}>Fakultas Industri Kreatif</option>
+                                  <option value="Fakultas Ilmu Terapan" {{ Auth::user()->faculty == "Fakultas Ilmu Terapan" ? 'selected' : null }}>Fakultas Ilmu Terapan</option>
+                                  <option value="Fakultas Teknik Elektro" {{ Auth::user()->faculty == "Fakultas Teknik Elektro" ? 'selected' : null }}>Fakultas Teknik Elektro</option>
+                                  <option value="Fakultas Komunikasi dan Ilmu Sosial" {{ Auth::user()->faculty == "Fakultas Komunikasi dan Ilmu Sosial " ? 'selected' : null }}>Fakultas Komunikasi dan Ilmu Sosial</option>
+                                  <option value="Fakultas Rekayasa Industri" {{ Auth::user()->faculty == "Fakultas Rekayasa Industri" ? 'selected' : null }}>Fakultas Rekayasa Industri</option>
                                 </select>
                             </div>
                         </div>
                         <div class="col-12">
                             <div class="mb-3">
                                 <label class="form-label">Prodi</label>
-                                <select class="form-select" aria-label="Default select example">
-                                  <option selected>Open this select menu</option>
-                                  <option value="1">One</option>
-                                  <option value="2">Two</option>
-                                  <option value="3">Three</option>
+                                <select required class="form-select" name="department" aria-label="Default select example">
+                                  <option value="Informatika">Informatika</option>
+                                  <option value="Rekayasa Perangkat Lunak">Rekayasa Perangkat Lunak</option>
+                                  <option value="Teknologi Informasi">Teknologi Informasi</option>
+                                  <option value="Sains Data">Sains Data</option>
                                 </select>
                             </div>
                         </div>
                         <div class="col-12">
                             <div class="mb-3">
                               <label class="form-label">Nomor HP</label>
-                              <input type="number" class="form-control">
+                              <input required type="number" name="handphone" class="form-control @error('handphone') is-invalid
+                              @enderror" value="{{ old('handphone', Auth::user()->handphone) }}">
+                              @error('handphone')
+                              <b class="text-danger"> {{ $message }}</b>
+                              @enderror
                             </div>
                         </div>
                         <div class="col-12">
                             <div class="mb-3">
-                              <label class="form-label">Tenggal Lahir</label>
-                              <input type="date" class="form-control">
+                              <label class="form-label">Tanggal Lahir</label>
+                              <input name="birthday" required type="date" class="form-control @error('birthday') is-invalid @enderror"
+                              value="{{ old('birthday', Auth::user()->birthday) }}"
+                              >
+                              @error('birthday')
+                              <b class="text-danger"> {{ $message }}</b>
+                              @enderror
                             </div>
                         </div>
                         <div class="col-12">
                             <div class="mb-3">
                                 <label class="form-label">Jenis Kelamin</label>
-                                <select class="form-select" aria-label="Default select example">
-                                  <option selected>Pilih Jenis Kelamin</option>
-                                  <option value="1">One</option>
-                                  <option value="2">Two</option>
+                                <select required class="form-select" name="gender" aria-label="Default select example">
+                                  <option value="1" {{ Auth::user()->gender }}>Laki Laki</option>
+                                  <option value="0">Perempuan</option>
                                 </select>
                             </div>
                         </div>
                         <div class="col-12">
                             <div class="mb-3">
                               <label class="form-label">Agama</label>
-                              <input type="text" class="form-control">
+                              <input required type="text" name="religion" class="form-control @error('religion') is-invalid @enderror"
+                              value="{{ old('religion', Auth::user()->religion) }}"
+                              >
+                              @error('religion')
+                              <b class="text-danger"> {{ $message }}</b>
+                              @enderror
                             </div>
                         </div>
                         <div class="col-12">
                             <div class="mb-3">
                               <label class="form-label">Alamat</label>
-                              <textarea type="text" class="form-control"></textarea>
+                              <textarea type="text" class="form-control @error('address') is-invalid @enderror" name="address">{{ Auth::user()->address }}</textarea>
+                              @error('address')
+                              <b class="text-danger"> {{ $message }}</b>
+                              @enderror
                             </div>
                         </div>
                     </div>
@@ -119,8 +146,8 @@
                         <div class="mb-3">
                             <div class="hero">
                                 <label for="input-file" id="drop-area">
-                                    <input type="file" accept="image/*" id="input-file" hidden>
-                                    <div id="img-view" style="">
+                                    <input type="file" accept="image/*" id="input-file" name="profile_picture" hidden>
+                                    <div id="img-view" style="background-image: url('{{ Auth::user()->profile_picture != null ? asset('/storage/' . Auth::user()->profile_picture) : 'https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png?20150327203541' }}')">
                                         <img src="{{ asset('assets/img/upload_icon.png') }}">
                                         <p>Drag and drop or click here <br>to upload image</p>
                                         <span>Upload any images from dekstop</span>

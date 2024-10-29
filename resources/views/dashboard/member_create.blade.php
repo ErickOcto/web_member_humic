@@ -12,7 +12,10 @@
                     <div class="col-12 col-lg-6">
                         <div class="mb-3">
                           <label class="form-label">Nama lengkap</label>
-                          <input required type="text" class="form-control" name="name">
+                          <input required type="text" class="form-control @error('name') is-invalid @enderror" name="name">
+                          @error('name')
+                              <b class="text-danger mt-5">Pastikan data benar</b>
+                          @enderror
                         </div>
                     </div>
                     <div class="col-12 col-lg-6">
@@ -25,17 +28,23 @@
                             <option value="Purwokerto">Purwokerto</option>
                           </select>
                         </div>
+                          @error('branch')
+                              <b class="text-danger mt-5">Pastikan data benar</b>
+                          @enderror
                     </div>
                     <div class="col-12 col-lg-6">
                         <div class="mb-3">
                           <label class="form-label">Email</label>
-                          <input required type="email" name="email" class="form-control">
+                          <input required type="email" name="email" class="form-control @error('email') is-invalid @enderror">
+                          @error('email')
+                              <b class="text-danger mt-5">Pastikan data benar</b>
+                          @enderror
                         </div>
                     </div>
                     <div class="col-12 col-lg-6">
                         <div class="mb-3">
                           <label class="form-label">Username</label>
-                          <input required type="text" name="username" class="form-control">
+                          <input required type="text" name="username" class="form-control @error('username') is-invalid @enderror">
                           @error('username')
                               <b class="text-danger mt-5">Pastikan data benar</b>
                           @enderror
@@ -44,7 +53,7 @@
                     <div class="col-12 col-lg-6">
                         <div class="mb-3">
                           <label class="form-label">Password</label>
-                          <input required type="password" name="password" class="form-control">
+                          <input required type="password" name="password" class="form-control @error('password') is-invalid @enderror">
                             @error('password')
                                 <b class="text-danger mt-5">{{ $message }}</b>
                             @enderror

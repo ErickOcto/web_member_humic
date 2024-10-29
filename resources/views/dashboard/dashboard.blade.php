@@ -92,9 +92,9 @@
                           <td>{{ $member->email }}</td>
                           <td>
                             @if($member->status)
-                                <span class="badge rounded-pill text-bg-success">Active</span>
+                                <span class="badge rounded-pill text-bg-success">Aktif</span>
                             @else
-                                <span class="badge rounded-pill text-bg-danger">Inactive</span>
+                                <span class="badge rounded-pill text-bg-danger">Tidak Aktif</span>
                             @endif
                           </td>
                           <td>{{ $member->department }}</td>

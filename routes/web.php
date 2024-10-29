@@ -28,8 +28,8 @@ Route::middleware(['auth', 'verified', 'admin'])->group(function () {
 // Member panel routes
 Route::middleware(['auth', 'verified', 'member'])->group(function () {
     Route::get('/member/dashboard', [MemberController::class, 'dashboard'])->name('member.dashboard');
-    Route::get('/member/edit', [MemberController::class, 'edit'])->name('member.edit');
-    Route::put('/member/put', [MemberController::class, 'put'])->name('member.put');
+    Route::get('/member/edit/{id}', [MemberController::class, 'edit'])->name('member.edit');
+    Route::put('/member/update/{id}', [MemberController::class, 'update'])->name('member.put');
     Route::get('member/pg', [MemberController::class, 'pg'])->name('member.pg');
     Route::get('member/pgAdd', [MemberController::class, 'pgAdd'])->name('member.pgAdd');
     Route::get('member/announcement', [MemberController::class, 'announcement'])->name('member.announcement');

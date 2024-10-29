@@ -38,39 +38,43 @@
                     <div class="container">
                         <div class="my-2">
                             Nama lengkap <br>
-                            <b>Putu Hary Gunawan</b>
+                            <b>{{ Auth::user()->name }}</b>
                         </div>
                         <div class="my-2">
                             NIP <br>
-                            <b>103012440019</b>
+                            <b>{{ Auth::user()->NIP }}</b>
                         </div>
                         <div class="my-2">
                             Fakultas <br>
-                            <b>Informatika</b>
+                            <b>{{ Auth::user()->faculty }}</b>
                         </div>
                         <div class="my-2">
                             Program Studi <br>
-                            <b>Informatika</b>
+                            <b>{{ Auth::user()->department }}</b>
                         </div>
                         <div class="my-2">
                             Nomor HP <br>
-                            <b>081280043549</b>
+                            <b>{{ Auth::user()->handphone }}</b>
                         </div>
                         <div class="my-2">
                             Jenis Kelamin <br>
-                            <b>Laki Laki</b>
+                            @if(Auth::user()->gender)
+                                <b>Laki Laki</b>
+                            @else
+                                <b>Perempuan</b>
+                            @endif
                         </div>
                         <div class="my-2">
                             Agama <br>
-                            <b>Hindu</b>
+                            <b>{{ Auth::user()->religion }}</b>
                         </div>
                         <div class="my-2">
                             Alamat asal <br>
-                            <b>Bali</b>
+                            <b>{{ Auth::user()->address }}</b>
                         </div>
                         <div class="my-2">
                             Tanggal Lahir <br>
-                            <b>17 17 2017</b>
+                            <b>{{ Auth::user()->birthday }}</b>
                         </div>
                     </div>
                 </div>
@@ -80,11 +84,15 @@
                     </div>
 
                     <div class="my-2">
-                        <span class="badge rounded-pill text-bg-success">Aktif</span>
+                        @if(Auth::user()->status)
+                            <span class="badge rounded-pill text-bg-success">Aktif</span>
+                        @else
+                            <span class="badge rounded-pill text-bg-danger">Tidak Aktif</span>
+                        @endif
                     </div>
 
                     <div class="my-2">
-                        <b>Putu Hary Gunawan</b>
+                        <b>{{ Auth::user()->name }}</b>
                     </div>
                     <div class="my-2">
                         1. Udayana University <br>
@@ -93,7 +101,7 @@
                     </div>
 
                     <div class="my-2 d-grid">
-                        <a href="{{ route('member.edit') }}" class="btn btn-primary"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg> Edit</a>
+                        <a href="{{ route('member.edit', Auth::user()->id) }}" class="btn btn-primary"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg> Edit</a>
                     </div>
 
                 </div>

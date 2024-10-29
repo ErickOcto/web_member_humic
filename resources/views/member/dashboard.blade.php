@@ -80,8 +80,7 @@
                 </div>
 
                 <div class="col-11 col-lg-5 m-3 offset-lg-1">
-                    <div style="width: 100%; height: 250px; background-image: url('https://humic.telkomuniversity.ac.id/wp-content/uploads/2020/06/Putu-Harry-Gunawan.jpeg'); background-position: center; background-size: cover;">
-                    </div>
+                    <div style="width: 100%; height: 250px; background-image: url('{{ Auth::user()->profile_picture != null ? asset('storage/' . Auth::user()->profile_picture) : 'https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png?20150327203541' }}'); background-position: center; background-size: cover;"></div>
 
                     <div class="my-2">
                         @if(Auth::user()->status)

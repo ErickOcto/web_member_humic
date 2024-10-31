@@ -18,7 +18,7 @@ return new class extends Migration
         $table->date('date');
         $table->longText('comment')->nullable();
         $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
-        $table->enum('status', ['active', 'inactive']);
+        $table->enum('status', ['Need Revision', 'Approved', 'Rejected', 'Waiting'])->default('Waiting');
         $table->string('thumbnail')->nullable();
         $table->timestamps();
         });

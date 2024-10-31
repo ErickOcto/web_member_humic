@@ -9,6 +9,8 @@ class Announcement extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['title', 'desc', 'date', 'time'];
+
     public function users()
     {
         return $this->belongsToMany(User::class, 'user_announcement')->withPivot('status');

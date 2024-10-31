@@ -30,6 +30,22 @@
             color: #777;
             margin-top: 15px;
         }
+        .uploaded-file-item {
+            margin-top: 10px;
+            padding: 10px;
+            border: 2px solid #4caf50;
+            border-radius: 16px;
+            background-color: #f9f9f9;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        input[type="file"] {
+            display: none;
+        }
+
+
 
     </style>
 @endpush
@@ -38,7 +54,7 @@
 
     <h2 class="gradient-red"><b>Create Announcement</b></h2>
 
-<form method="POST" class="row" action="" enctype="multipart/form-data">
+<form method="POST" class="row" action="{{ route('announcement.store') }}" enctype="multipart/form-data">
     @csrf
     <div class="col-12 col-md-8 offset-md-2 col-lg-6 offset-lg-3">
     <div class="card" style="border-radius: 16px; border: 0px; background-color: #f6f6f6;">
@@ -48,7 +64,7 @@
             <div class="mb-3">
                 <div class="hero">
                     <label for="input-file" id="drop-area">
-                        <input type="file" accept="image/*" id="input-file" hidden>
+                        <input type="file" id="input-file" accept="image/*" multiple hidden>
                         <div id="img-view" style="">
                             <img src="{{ asset('assets/img/upload_icon.png') }}">
                             <p>Drag and drop or click here <br>to upload image</p>
@@ -56,18 +72,33 @@
                         </div>
                     </label>
                 </div>
+                @error('uploaded_files')
+                    <b class="text-danger"> {{ $message }}</b>
+                @enderror
+            </div>
+
+            {{-- Repeater --}}
+            <div id="uploaded-files-container" class="mb-3">
+
             </div>
 
             <!-- Title -->
             <div class="mb-3">
                 <label for="title" class="form-label">Title</label>
-                <input type="text" class="form-control" id="title" name="title" placeholder="Type the title here">
+                <input type="text" class="form-control @error('title') is-invalid @enderror" id="title" name="title" placeholder="Type the title here">
+                @error('title')
+                    <b class="text-danger"> {{ $message }}</b>
+                @enderror
             </div>
 
             <!-- Description -->
             <div class="mb-3">
                 <label for="description" class="form-label">Description</label>
-                <textarea class="form-control" id="description" name="description" placeholder="Type the description here"></textarea>
+                <textarea class="form-control @error('description') is-invalid
+                @enderror" id="description" name="description" placeholder="Type the description here"></textarea>
+                @error('description')
+                    <b class="text-danger"> {{ $message }}</b>
+                @enderror
             </div>
 
             <div class="row">
@@ -75,14 +106,22 @@
                     <!-- Date -->
                     <div class="mb-3">
                         <label for="date" class="form-label">Date</label>
-                        <input type="date" class="form-control" id="date" name="date">
+                        <input type="date" class="form-control @error('date') is-invalid
+                        @enderror" id="date" name="date">
+                        @error('date')
+                            <b class="text-danger"> {{ $message }}</b>
+                        @enderror
                     </div>
                 </div>
                 <div class="col-12">
                     <!-- Time -->
                     <div class="mb-3">
                         <label for="time" class="form-label">Time</label>
-                        <input type="time" class="form-control" id="time" name="time">
+                        <input type="time" class="form-control @error('time') is-invalid
+                @enderror" id="time" name="time">
+                        @error('time')
+                            <b class="text-danger"> {{ $message }}</b>
+                        @enderror
                     </div>
                 </div>
             </div>
@@ -101,28 +140,64 @@
 
 @push('js_scripts')
     <script>
-        const dropArea = document.getElementById('drop-area');
-        const inputFile = document.getElementById('input-file');
-        const imageView = document.getElementById('img-view');
-
-        inputFile.addEventListener("change", uploadImage);
-
-        function uploadImage(){
-            let imgLink = URL.createObjectURL(inputFile.files[0]);
-            imageView.style.backgroundImage = `url(${imgLink})`;
-            imageView.style.backgroundSize = `cover`;
-            imageView.style.backgroundPosition = `center;`;
-            imageView.textContent = "";
-            imageView.style.border = 0;
-        }
-
-        dropArea.addEventListener("dragover", function(e){
-            e.preventDefault();
-        });
-        dropArea.addEventListener("drop", function(e){
-            e.preventDefault();
-            inputFile.files = e.dataTransfer.files;
-            uploadImage();
+        document.addEventListener('DOMContentLoaded', function () {
+            const dropArea = document.getElementById('drop-area');
+            const inputFile = document.getElementById('input-file');
+            const uploadedFilesContainer = document.getElementById('uploaded-files-container');
+            const form = document.querySelector('form');
+        
+        
+            inputFile.addEventListener("change", function (e) {
+                uploadImages(e.target.files);
+            });
+        
+        
+            dropArea.addEventListener("dragover", function (e) {
+                e.preventDefault();
+            });
+        
+            dropArea.addEventListener("drop", function (e) {
+                e.preventDefault();
+                uploadImages(e.dataTransfer.files);
+            });
+        
+        
+            function uploadImages(files) {
+                for (let i = 0; i < files.length; i++) {
+                    const file = files[i];
+                    addFileToList(file);
+                }
+            }
+        
+            function addFileToList(file) {
+                const fileId = 'file-' + Math.random().toString(36).substr(2, 9);
+                const fileHtml = `
+                    <div class="uploaded-file-item" id="${fileId}">
+                        <input hidden type="file" name="uploaded_files[]" style="display: none;" data-id="${fileId}">
+                        <span>${file.name}</span>
+                        <button type="button" class="delete-file-btn" data-id="${fileId}">🗑️</button>
+                    </div>
+                `;
+                uploadedFilesContainer.insertAdjacentHTML('beforeend', fileHtml);
+                
+                
+                const newInput = document.createElement('input');
+                newInput.type = 'file';
+                newInput.name = 'uploaded_files[]';
+                newInput.files = inputFile.files;
+                uploadedFilesContainer.appendChild(newInput);
+            }
+        
+        
+            uploadedFilesContainer.addEventListener('click', function (e) {
+                if (e.target.classList.contains('delete-file-btn')) {
+                    const fileId = e.target.getAttribute('data-id');
+                    const fileElement = document.getElementById(fileId);
+                    if (fileElement) {
+                        fileElement.remove();
+                    }
+                }
+            });
         });
     </script>
 @endpush

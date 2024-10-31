@@ -42,13 +42,14 @@
 
     <div class="row">
         <div class="col-12 col-lg-6 offset-lg-3 col-md-8 offset-md-2">
-            <form style="background-color: #f6f6f6; border-radius: 16px; padding: 16px">
+            <form action="{{ route('member.pgStore') }}" method="POST" style="background-color: #f6f6f6; border-radius: 16px; padding: 16px">
+                @csrf
                 <div class="row">
                     <div class="col-12">
                         <div class="mb-3">
                             <div class="hero">
                                 <label for="input-file" id="drop-area">
-                                    <input type="file" accept="image/*" id="input-file" hidden>
+                                    <input required type="file" name="thumbnail" accept="image/*" id="input-file" hidden>
                                     <div id="img-view" style="">
                                         <img src="{{ asset('assets/img/upload_icon.png') }}">
                                         <p>Drag and drop or click here <br>to upload image</p>
@@ -60,17 +61,17 @@
 
                         <div class="mb-3">
                           <label class="form-label">Judul</label>
-                          <input type="text" class="form-control">
+                          <input required type="text" name="title" class="form-control">
                         </div>
 
                         <div class="mb-3">
                           <label class="form-label">Deskripsi</label>
-                          <textarea type="text" class="form-control" rows="3"></textarea>
+                          <textarea required name="description" type="text" class="form-control" rows="3"></textarea>
                         </div>
 
                         <div class="mb-3">
                           <label class="form-label">Tanggal</label>
-                          <input type="date" class="form-control">
+                          <input type="date" required name="date" class="form-control">
                         </div>
 
                         <div class="text-center">

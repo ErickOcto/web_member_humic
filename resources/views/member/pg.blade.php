@@ -24,14 +24,28 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                          <td>1</td>
-                          <td>Project abc</td>
-                          <td>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Explicabo, earum.</td>
-                          <td>
-                            <span class="badge rounded-pill text-bg-success">Success</span>
-                          </td>
-                        </tr>
+                        @forelse ($items as $item)
+                            <tr>
+                              <td>{{ $loop->iteration }}</td>
+                              <td>{{ $item->title }}</td>
+                              <td>{{ Str::limit($item->description, 20) }}</td>
+                              <td>
+                                @if($item->status == 'Approved')
+                                    <span class="badge rounded-pill text-bg-success">Approved</span>
+                                @elseif ($item->status == 'Rejected')
+                                    <span class="badge rounded-pill text-bg-danger">Rejected</span>
+                                @elseif ($item->status == 'Waiting')
+                                    <span class="badge rounded-pill text-bg-info ">On Review</span>
+                                @elseif ($item->status == 'Need Revision')
+                                    <span class="badge rounded-pill text-bg-warning">Need Revision</span>
+                                @endif
+                              </td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="4" class="text-center">Tidak ada data</td>
+                            </tr>
+                        @endforelse
                     </tbody>
                 </table>
             </div>

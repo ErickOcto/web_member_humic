@@ -15,20 +15,22 @@
 
 @section('dashboard-content')
 
-    <div class="toast-container position-fixed top-0 end-0 p-3">
-      <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true" style="background: #ffeaea; border: 0px; border-radius: 12px;">
-        {{-- <div class="toast-header">
-          <strong class="me-auto">Humic Engineering</strong>
-          <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
-        </div> --}}
-        <div class="toast-body">
-          <p><b>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquam, numquam!</b></p>
-          <div class="text-end">
-            <button class="btn btn-light btn-sm">Tandai Telah Dibaca</button>
+    @foreach ($unread as $item)
+    <form action="{{ route('seen', $item->announcement->id) }}" method="POST">
+        @method('PUT')
+        @csrf
+        <div class="toast-container position-fixed top-0 end-0 p-3">
+          <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true" style="background: #ffeaea; border: 0px; border-radius: 12px;">
+            <div class="toast-body">
+              <p>{{ $item->announcement->title }}</p>
+              <div class="text-end">
+                <button type="submit" class="btn btn-light btn-sm">Tandai Telah Dibaca</button>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
-    </div>
+    </form>
+    @endforeach
 
     <h2 class="gradient-red"><b>Dashboard</b></h2>
 
@@ -115,7 +117,9 @@
   <script>
     document.addEventListener("DOMContentLoaded", function(){
       var toastEl = document.getElementById('liveToast');
-      var toast = new bootstrap.Toast(toastEl);
+      var toast = new bootstrap.Toast(toastEl, {
+        autohide: false,
+      });
       toast.show();
     });
   </script>

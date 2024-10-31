@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\BroadcastAnnouncement;
+use App\Models\Announcement;
+use App\Models\AnnouncementImage;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -42,9 +45,43 @@ class DashboardController extends Controller
 
 
     // Announcement Controller
-
     public function announcementCreate(){
         return view('dashboard.announcement_create');
+    }
+
+    public function announcementStore(Request $request)
+    {
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'description' => 'required|string',
+            'date' => 'required|date',
+            'time' => 'required',
+            'uploaded_files' => 'required|array',
+            'uploaded_files.*' => 'file|mimes:jpg,jpeg,png,gif|max:4096'
+        ]);
+
+        $announcement = Announcement::create([
+            'title' => $request->title,
+            'desc' => $request->description,
+            'date' => $request->date,
+            'time' => $request->time,
+        ]);
+
+        if ($request->hasFile('uploaded_files')) {
+            foreach ($request->file('uploaded_files') as $file) {
+
+                $path = $file->store('announcement_images', 'public');
+
+                AnnouncementImage::create([
+                    'announcement_id' => $announcement->id,
+                    'image' => $path,
+                ]);
+            }
+        }
+
+        BroadcastAnnouncement::dispatch($announcement->id);
+
+        return redirect()->back()->with(['success' => 'Pengumuman berhasil dibuat.']);
     }
 
     // Project Gallery

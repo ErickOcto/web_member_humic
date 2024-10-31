@@ -9,6 +9,8 @@ class UserAnnouncement extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['user_id', 'announcement_id', 'status'];
+
     public function user()
     {
         return $this->belongsTo(User::class);

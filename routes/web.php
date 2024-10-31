@@ -20,6 +20,7 @@ Route::middleware(['auth', 'verified', 'admin'])->group(function () {
     Route::get('/create-member', [DashboardController::class, 'memberCreate'])->name('member.create');
     Route::post('/create-member', [DashboardController::class, 'memberStore'])->name('member.store');
     Route::get('/create-announcement', [DashboardController::class, 'announcementCreate'])->name('announcement.create');
+    Route::post('/store-announcement', [DashboardController::class, 'announcementStore'])->name('announcement.store');
     Route::get('/project-gallery', [DashboardController::class, 'projectGallery'])->name('projectGallery.list');
     Route::get('/project-gallery/approval', [DashboardController::class, 'projectGalleryApproval'])->name('projectGallery.approval');
     Route::get('/member-history', [DashboardController::class, 'memberHistory'])->name('member.history');
@@ -28,10 +29,12 @@ Route::middleware(['auth', 'verified', 'admin'])->group(function () {
 // Member panel routes
 Route::middleware(['auth', 'verified', 'member'])->group(function () {
     Route::get('/member/dashboard', [MemberController::class, 'dashboard'])->name('member.dashboard');
+    Route::put('/member/seen/{id}', [MemberController::class, 'seen'])->name('seen');
     Route::get('/member/edit/{id}', [MemberController::class, 'edit'])->name('member.edit');
     Route::put('/member/update/{id}', [MemberController::class, 'update'])->name('member.put');
     Route::get('member/pg', [MemberController::class, 'pg'])->name('member.pg');
     Route::get('member/pgAdd', [MemberController::class, 'pgAdd'])->name('member.pgAdd');
+    Route::post('member/pgStore', [MemberController::class, 'pgStore'])->name('member.pgStore');
     Route::get('member/announcement', [MemberController::class, 'announcement'])->name('member.announcement');
 });
 

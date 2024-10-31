@@ -2,20 +2,38 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Announcement;
+use App\Models\ProjectGallery;
 use App\Models\User;
+use App\Models\UserAnnouncement;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class MemberController extends Controller
 {
     public function dashboard(){
-        return view('member.dashboard');
+        $userId = Auth::user()->id;
+
+        $unread = UserAnnouncement::where('user_id', $userId)->where('status', 0)->get();
+
+        return view('member.dashboard', compact('unread'));
+    }
+
+    public function seen($id){
+        $user = UserAnnouncement::where('user_id', Auth::user()->id)
+                        ->where('announcement_id', $id)
+                        ->where('status', 0)->first();
+        $user->update([
+            'status' => 1
+        ]);
+        return redirect()->back();
     }
 
     public function edit(Request $request, $id){
         return view('member.edit');
     }
 
-public function update(Request $request, $id)
+    public function update(Request $request, $id)
     {
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
@@ -53,14 +71,31 @@ public function update(Request $request, $id)
     }
 
     public function pg(){
-        return view('member.pg');
+        $items = ProjectGallery::where('user_id', Auth::user()->id)->get();
+        return view('member.pg', compact('items'));
     }
 
     public function pgAdd(){
         return view('member.pg_add');
     }
 
+    public function pgStore(Request $request) {
+
+        $validatedData = $request->validate([
+            'title' => 'required',
+            'description' => 'required',
+            'date' => 'required|date',
+        ]);
+
+        $validatedData['user_id'] = Auth::user()->id;
+
+        ProjectGallery::create($validatedData);
+
+        return redirect()->back()->with(['success' => 'Project berhasil ditambahkan']);
+    }
+
     public function announcement(){
-        return view('member.announcement');
+        $announcements = Announcement::all();
+        return view('member.announcement', compact('announcements'));
     }
 }

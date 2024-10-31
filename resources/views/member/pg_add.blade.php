@@ -42,7 +42,7 @@
 
     <div class="row">
         <div class="col-12 col-lg-6 offset-lg-3 col-md-8 offset-md-2">
-            <form action="{{ route('member.pgStore') }}" method="POST" style="background-color: #f6f6f6; border-radius: 16px; padding: 16px">
+            <form action="{{ route('member.pgStore') }}" method="POST" style="background-color: #f6f6f6; border-radius: 16px; padding: 16px" enctype="multipart/form-data">
                 @csrf
                 <div class="row">
                     <div class="col-12">

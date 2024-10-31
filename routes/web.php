@@ -22,8 +22,9 @@ Route::middleware(['auth', 'verified', 'admin'])->group(function () {
     Route::get('/create-announcement', [DashboardController::class, 'announcementCreate'])->name('announcement.create');
     Route::post('/store-announcement', [DashboardController::class, 'announcementStore'])->name('announcement.store');
     Route::get('/project-gallery', [DashboardController::class, 'projectGallery'])->name('projectGallery.list');
-    Route::get('/project-gallery/approval', [DashboardController::class, 'projectGalleryApproval'])->name('projectGallery.approval');
+    Route::get('/project-gallery/approval/{id}', [DashboardController::class, 'projectGalleryApproval'])->name('projectGallery.approval');
     Route::get('/member-history', [DashboardController::class, 'memberHistory'])->name('member.history');
+    Route::put('/updateStatusPG/{id}', [DashboardController::class, 'updateProjectMemberStatus'])->name('projectMember.update');
 });
 
 // Member panel routes

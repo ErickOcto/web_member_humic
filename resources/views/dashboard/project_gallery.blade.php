@@ -12,17 +12,37 @@
                         <tr>
                             <th>NO</th>
                             <th>TITLE</th>
+                            <th>USER</th>
                             <th>DESCRIPTION</th>
+                            <th>STATUS</th>
                             <th>ACTION</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>Ambasigma</td>
-                            <td>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dicta, reiciendis.</td>
-                            <td><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-eye"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg></td>
-                        </tr>
+                        @forelse ($items as $item)
+                            <tr>
+                                <td>{{ $loop->iteration }}</td>
+                                <th>{{ $item->title }}</th>
+                                <td>{{ $item->user->name }}</td>
+                                <td>{{ Str::limit($item->description, 30) }}</td>
+                                <td>                                @if($item->status == 'Approved')
+                                    <span class="badge rounded-pill text-bg-success">Approved</span>
+                                @elseif ($item->status == 'Rejected')
+                                    <span class="badge rounded-pill text-bg-danger">Rejected</span>
+                                @elseif ($item->status == 'Waiting')
+                                    <span class="badge rounded-pill text-bg-info ">Need Review</span>
+                                @elseif ($item->status == 'Need Revision')
+                                    <span class="badge rounded-pill text-bg-warning">Revision</span>
+                                @endif</td>
+                                <td>
+                                    <a href="{{ route('projectGallery.approval', $item->id) }}">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-eye"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                                    </a>
+                                </td>
+                            </tr>
+                        @empty
+
+                        @endforelse
                     </tbody>
                 </table>
             </div>

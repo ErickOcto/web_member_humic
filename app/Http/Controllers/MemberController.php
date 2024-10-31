@@ -80,12 +80,18 @@ class MemberController extends Controller
     }
 
     public function pgStore(Request $request) {
-
         $validatedData = $request->validate([
             'title' => 'required',
             'description' => 'required',
             'date' => 'required|date',
+            'thumbnail' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
+
+        if ($request->hasFile('thumbnail')) {
+            $thumbnail = $request->file('thumbnail');
+            $path = $thumbnail->store('projects', 'public');
+            $validatedData['thumbnail'] = $path;
+        }
 
         $validatedData['user_id'] = Auth::user()->id;
 

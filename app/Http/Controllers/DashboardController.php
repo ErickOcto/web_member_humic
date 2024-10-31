@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Jobs\BroadcastAnnouncement;
 use App\Models\Announcement;
 use App\Models\AnnouncementImage;
+use App\Models\ProjectGallery;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -87,14 +88,35 @@ class DashboardController extends Controller
     // Project Gallery
 
     public function projectGallery(){
-        return view('dashboard.project_gallery');
+        $items = ProjectGallery::all();
+        return view('dashboard.project_gallery', compact('items'));
     }
 
-    public function projectGalleryApproval(){
-        return view('dashboard.project_gallery_approval');
+    public function projectGalleryApproval($id){
+        $item = ProjectGallery::findOrFail($id);
+        return view('dashboard.project_gallery_approval', compact('item'));
     }
 
     public function memberHistory(){
         return view('dashboard.member_history');
     }
+
+    public function updateProjectMemberStatus(Request $request, $id)
+    {
+        $validatedData = $request->validate([
+            'comment' => 'required|string',
+            'status' => 'required|in:Approved,Rejected,Need Revision,Waiting',
+        ]);
+
+        $item = ProjectGallery::findOrFail($id);
+
+        $item->update([
+            'comment' => $validatedData['comment'],
+            'status' => $validatedData['status'],
+        ]);
+
+        return redirect()->route('projectGallery.list')->with(['success' => 'Status dan komentar berhasil diperbarui']);
+    }
+
+
 }

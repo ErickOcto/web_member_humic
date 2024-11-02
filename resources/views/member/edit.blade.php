@@ -155,7 +155,30 @@
                                 </label>
                             </div>
                         </div>
-                        <div class="text-end">
+                        <div class="mb-3">
+                            <div class="repeater-container" id="repeaterContainer">
+                                <div class="repeater-item">
+                                    @foreach(old('education_level', Auth::user()->educationHistory ?? []) as $index => $history)
+                                    <select name="education_level[]" class="form-select">
+                                        <option value="S1" {{ $history['level'] == 'S1' ? 'selected' : '' }}>S1</option>
+                                        <option value="S2" {{ $history['level'] == 'S2' ? 'selected' : '' }}>S2</option>
+                                        <option value="S3" {{ $history['level'] == 'S3' ? 'selected' : '' }}>S3</option>
+                                    </select>
+                                    <input type="text" name="program_study[]" placeholder="Program Studi" value="{{ $history['program_study'] ?? '' }}" class="form-control">
+                                    <input type="text" name="university[]" placeholder="Universitas" value="{{ $history['university'] ?? '' }}" class="form-control">
+                                    <span class="remove-icon" onclick="removeRepeaterItem(this)">&#x1F5D1;</span>
+                                </div>
+                                @endforeach
+                            </div>
+                            <div class="d-flex align-items-center justify-content-between">
+                            Latar belakang pendidikan
+                            <button type="button" class="add-repeater-btn btn btn-dark" onclick="addRepeaterItem()">
+                                Tambah
+                            </button>
+                            </div>
+                        </div>
+
+                        <div class="text-end mt-3">
                             <button type="submit" class="btn btn-primary text-end px-5"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg> Submit</button>
                         </div>
                     </div>
@@ -163,8 +186,6 @@
             </form>
         </div>
     </div>
-
-
 @endsection
 
 @push('js_scripts')
@@ -192,5 +213,70 @@
             inputFile.files = e.dataTransfer.files;
             uploadImage();
         });
+    </script>
+
+    <script>
+document.addEventListener("DOMContentLoaded", function () {
+    // Mengambil data lama dari server untuk di-load ulang
+    const levels = @json(old('level', Auth::user()->eduBackground->pluck('level') ?? []));
+    const majors = @json(old('major', Auth::user()->eduBackground->pluck('major') ?? []));
+    const institutions = @json(old('institution', Auth::user()->eduBackground->pluck('institution') ?? []));
+
+    if (levels.length > 0) {
+        const container = document.getElementById('repeaterContainer');
+        for (let i = 0; i < levels.length; i++) {
+            const newItem = document.createElement('div');
+            newItem.classList.add('repeater-item');
+            newItem.innerHTML = `
+            <div class="input-group mt-3">
+                <select name="level[]" class="form-select">
+                    <option value="S1" ${levels[i] === 'S1' ? 'selected' : ''}>S1</option>
+                    <option value="S2" ${levels[i] === 'S2' ? 'selected' : ''}>S2</option>
+                    <option value="S3" ${levels[i] === 'S3' ? 'selected' : ''}>S3</option>
+                </select>
+
+                <input type="text" name="major[]" placeholder="Program Studi" class="form-control" value="${majors[i] || ''}">
+
+                <input type="text" name="institution[]" placeholder="Universitas" class="form-control" value="${institutions[i] || ''}">
+
+                <button class="remove-icon btn btn-danger" onclick="removeRepeaterItem(this)">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash-2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>
+                </button>
+            </div>
+            `;
+            container.appendChild(newItem);
+        }
+    }
+});
+
+function addRepeaterItem() {
+    const container = document.getElementById('repeaterContainer');
+    const newItem = document.createElement('div');
+    newItem.classList.add('repeater-item');
+    newItem.innerHTML = `
+    <div class="input-group mt-3">
+        <select name="level[]" class="form-select">
+            <option value="S1">S1</option>
+            <option value="S2">S2</option>
+            <option value="S3">S3</option>
+        </select>
+
+        <input type="text" name="major[]" placeholder="Program Studi" class="form-control">
+
+        <input type="text" name="institution[]" placeholder="Universitas" class="form-control">
+
+        <button class="remove-icon btn btn-danger" onclick="removeRepeaterItem(this)">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash-2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>
+        </button>
+    </div>
+    `;
+    container.appendChild(newItem);
+}
+
+function removeRepeaterItem(element) {
+    const item = element.parentElement;
+    item.remove();
+}
+
     </script>
 @endpush

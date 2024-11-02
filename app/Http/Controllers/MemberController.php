@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Announcement;
+use App\Models\EduBackground;
 use App\Models\ProjectGallery;
 use App\Models\User;
 use App\Models\UserAnnouncement;
@@ -46,6 +47,12 @@ class MemberController extends Controller
             'religion' => 'required|string|max:50',
             'address' => 'required|string|max:255',
             'profile_picture' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'level' => 'required|array',
+            'level.*' => 'required|string',
+            'major' => 'required|array',
+            'major.*' => 'required|string',
+            'institution' => 'required|array',
+            'institution.*' => 'required|string',
         ]);
 
         $member = User::findOrFail($id);
@@ -67,7 +74,26 @@ class MemberController extends Controller
         }
 
         $member->save();
-        return redirect()->back()->with(['success' => 'Profile berhasil di perbarui']);
+
+        $userId = $member->id;
+
+        EduBackground::where('user_id', $userId)->delete();
+
+        $educationData = [];
+        foreach ($request->level as $index => $level) {
+            $educationData[] = [
+                'user_id' => $userId,
+                'level' => $level,
+                'major' => $request->major[$index],
+                'institution' => $request->institution[$index],
+                'created_at' => now(),
+                'updated_at' => now(),
+            ];
+        }
+
+        EduBackground::insert($educationData);
+
+        return redirect()->back()->with(['success' => 'Profile berhasil diperbarui']);
     }
 
     public function pg(){

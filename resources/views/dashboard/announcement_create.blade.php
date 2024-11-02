@@ -145,50 +145,50 @@
             const inputFile = document.getElementById('input-file');
             const uploadedFilesContainer = document.getElementById('uploaded-files-container');
             const form = document.querySelector('form');
-        
-        
+
+
             inputFile.addEventListener("change", function (e) {
                 uploadImages(e.target.files);
             });
-        
-        
+
+
             dropArea.addEventListener("dragover", function (e) {
                 e.preventDefault();
             });
-        
+
             dropArea.addEventListener("drop", function (e) {
                 e.preventDefault();
                 uploadImages(e.dataTransfer.files);
             });
-        
-        
+
+
             function uploadImages(files) {
                 for (let i = 0; i < files.length; i++) {
                     const file = files[i];
                     addFileToList(file);
                 }
             }
-        
+
             function addFileToList(file) {
                 const fileId = 'file-' + Math.random().toString(36).substr(2, 9);
                 const fileHtml = `
                     <div class="uploaded-file-item" id="${fileId}">
                         <input hidden type="file" name="uploaded_files[]" style="display: none;" data-id="${fileId}">
                         <span>${file.name}</span>
-                        <button type="button" class="delete-file-btn" data-id="${fileId}">🗑️</button>
+                        <button type="button" class="btn btn-danger" data-id="${fileId}"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash-2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg></button>
                     </div>
                 `;
                 uploadedFilesContainer.insertAdjacentHTML('beforeend', fileHtml);
-                
-                
+
+
                 const newInput = document.createElement('input');
                 newInput.type = 'file';
                 newInput.name = 'uploaded_files[]';
                 newInput.files = inputFile.files;
                 uploadedFilesContainer.appendChild(newInput);
             }
-        
-        
+
+
             uploadedFilesContainer.addEventListener('click', function (e) {
                 if (e.target.classList.contains('delete-file-btn')) {
                     const fileId = e.target.getAttribute('data-id');

@@ -96,9 +96,11 @@
                         <b>{{ Auth::user()->name }}</b>
                     </div>
                     <div class="my-2">
-                        1. Udayana University <br>
-                        2. Bandung Institute of Technology <br>
-                        3. Bandung Institute of Technology <br>
+                        @forelse (Auth::user()->eduBackground as $item)
+                            <b>{{ $item->level }} {{ $item->major }} {{ $item->institution }}</b> <br>
+                        @empty
+
+                        @endforelse
                     </div>
 
                     <div class="my-2 d-grid">

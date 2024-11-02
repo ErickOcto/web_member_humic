@@ -35,31 +35,31 @@
 
 <div class="card p-3 shadow-lg border-0" style="border-radius: 20px">
     <div class="d-flex justify-content-between align-items-center">
-        <div class="d-flex justify-content-center align-items-center">
-        <!-- Show entries dropdown -->
-        <div class="form-group d-flex align-items-center" style="margin-right: 12px">
-            <label for="showEntries" class="me-2 mb-0 text-danger">Show</label>
-            <select class="form-select" id="showEntries" style="width: auto;">
-                <option value="10" selected>10</option>
-                <option value="25">25</option>
-                <option value="50">50</option>
-                <option value="100">100</option>
-            </select>
-            <span class="ms-2 text-danger">entries</span>
-        </div>
-
-        <!-- Search input -->
-            <div class="input-group">
-              <input type="text" class="form-control" placeholder="Search..." aria-label="Recipient's username" aria-describedby="button-addon2">
-              <button class="btn btn-outline-secondary" type="button" id="button-addon2"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-search"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></button>
+        <form action="{{ route('member.history') }}" method="GET" class="d-flex justify-content-center align-items-center" id="entriesForm">
+            <!-- Show entries dropdown -->
+            <div class="form-group d-flex align-items-center" style="margin-right: 12px">
+                <label for="showEntries" class="me-2 mb-0 text-danger">Show</label>
+                <select class="form-select" id="showEntries" style="width: auto;" onchange="document.getElementById('entriesForm').submit()" name="entries">
+                    <option value="10" {{ request('entries') == 10 ? 'selected' : '' }}>10</option>
+                    <option value="15" {{ request('entries') == 15 ? 'selected' : '' }}>15</option>
+                    <option value="25" {{ request('entries') == 25 ? 'selected' : '' }}>25</option>
+                    <option value="50" {{ request('entries') == 50 ? 'selected' : '' }}>50</option>
+                </select>
+                <span class="ms-2 text-danger">entries</span>
             </div>
-        </div>
+
+            <!-- Search input -->
+            <div class="input-group">
+                  <input type="text" name="search" class="form-control" placeholder="Search..." aria-label="Recipient's username" aria-describedby="button-addon2">
+                  <button class="btn btn-outline-secondary" type="submit" id="button-addon2"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-search"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></button>
+            </div>
+        </form>
 
         <!-- Download button -->
         <div>
-            <button class="btn btn-outline-secondary">
+            <a href="{{ route('login-history.download') }}" class="btn btn-outline-secondary">
                 <i class="bi bi-download"></i> Download
-            </button>
+            </a>
         </div>
     </div>
 </div>
@@ -75,19 +75,30 @@
                             <th>NAME</th>
                             <th>USERNAME</th>
                             <th>EMAIL</th>
+                            <th>IP</th>
+                            <th>AGENT</th>
                             <th>DATE & TIME</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>Ambasigma</td>
-                            <td>Sigma</td>
-                            <td>amba@sigma.com</td>
-                            <td>2024-10-04 16:43:21</td>
-                        </tr>
+                        @forelse ($users as $user)
+                            <tr>
+                                <td>{{ $loop->iteration }}</td>
+                                <td>{{ $user->user->name }}</td>
+                                <td>{{ $user->user->username }}</td>
+                                <td>{{ $user->user->email }}</td>
+                                <td>{{ $user->ip_address }}</td>
+                                <td>{{ $user->user_agent }}</td>
+                                <td><b>{{ $user->login_at }}</b></td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td class="text-center" colspan="6">Tidak ada data</td>
+                            </tr>
+                        @endforelse
                     </tbody>
                 </table>
+                {{ $users->links() }}
             </div>
         </div>
     </div>

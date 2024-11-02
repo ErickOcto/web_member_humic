@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\LoginHistoryExport;
 use App\Jobs\BroadcastAnnouncement;
 use App\Models\Announcement;
 use App\Models\AnnouncementImage;
+use App\Models\LoginHistory;
 use App\Models\ProjectGallery;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 
 class DashboardController extends Controller
 {
@@ -138,10 +141,6 @@ class DashboardController extends Controller
         return view('dashboard.project_gallery_approval', compact('item'));
     }
 
-    public function memberHistory(){
-        return view('dashboard.member_history');
-    }
-
     public function updateProjectMemberStatus(Request $request, $id)
     {
         $validatedData = $request->validate([
@@ -159,5 +158,29 @@ class DashboardController extends Controller
         return redirect()->route('projectGallery.list')->with(['success' => 'Status dan komentar berhasil diperbarui']);
     }
 
+    //Member Login History
+
+    public function memberHistory(Request $request){
+        $query = LoginHistory::with('user');
+
+        if ($request->has('search') && $request->search != '') {
+            $search = $request->search;
+            $query->whereHas('user', function($q) use ($search) {
+                $q->where('name', 'like', '%' . $search . '%')
+                  ->orWhere('username', 'like', '%' . $search . '%')
+                  ->orWhere('email', 'like', '%' . $search . '%');
+            });
+        }
+
+        $entries = $request->input('entries', 10);
+
+        $users = $query->paginate($entries)->appends($request->all());
+
+        return view('dashboard.member_history', compact('users'));
+    }
+
+    public function download() {
+        return Excel::download(new LoginHistoryExport, 'login_history.xlsx');
+    }
 
 }

@@ -101,7 +101,7 @@
                         <div class="d-flex justify-content-between align-items-center">
                           <div>
                             <h4>Prodi</h4>
-                            <p class="display-4">6</p>
+                            <p class="display-4">{{ $totalDepartments }}</p>
                           </div>
                           <img src="{{ asset('assets/img/nb.png') }}" alt="Book Icon" class="info-icon">
                         </div>
@@ -113,7 +113,7 @@
                     <div class="col-md-6">
                         <div class="custom-card card-person">
                             <h6>AKTIF</h6>
-                            <div class="stat-number">44 Person</div>
+                            <div class="stat-number">{{ $totalActive }} Person</div>
                         </div>
                     </div>
 
@@ -126,7 +126,7 @@
                         <div class="d-flex justify-content-between align-items-center">
                           <div>
                             <h4>Fakultas</h4>
-                            <p class="display-4">4</p>
+                            <p class="display-4">{{ $totalFaculties }}</p>
                           </div>
                           <img src="{{ asset('assets/img/com.png') }}" alt="Computer Icon" class="info-icon">
                         </div>
@@ -138,7 +138,7 @@
                     <div class="col-md-6">
                         <div class="custom-card card-person">
                             <h6>Cabang</h6>
-                            <div class="stat-number">4</div>
+                            <div class="stat-number">{{ $totalBranches }}</div>
                         </div>
                     </div>
                 </div>
@@ -150,22 +150,26 @@
 
 @push('js_scripts')
 <script>
+    const years = @json($usersGroupedByYear->pluck('year'));
+    const totalMembersData = @json($usersGroupedByYear->pluck('total_members'));
+    const activeMembersData = @json($activeUsersGroupedByYear->pluck('active_members'));
+
     const ctx = document.getElementById('myChart').getContext('2d');
     const myChart = new Chart(ctx, {
         type: 'bar',
         data: {
-            labels: ['2024', '2025', '2026', '2027', '2028'],
+            labels: years,
             datasets: [
                 {
                     label: 'Jumlah Member',
-                    data: [35, 40, 10, 10, 10], // Data untuk jumlah member
+                    data: totalMembersData,
                     backgroundColor: '#e74c3c', // Warna merah untuk jumlah member
                     borderColor: '#e74c3c',
                     borderWidth: 1
                 },
                 {
                     label: 'Status Aktif',
-                    data: [15, 15, 10, 10, 10], // Data untuk status aktif
+                    data: activeMembersData,
                     backgroundColor: '#ff7979', // Warna pink untuk status aktif
                     borderColor: '#ff7979',
                     borderWidth: 1

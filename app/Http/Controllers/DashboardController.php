@@ -85,6 +85,9 @@ class DashboardController extends Controller
 
     public function memberDestroy($id){
         $user = User::findOrFail($id);
+        $user->status = 0;
+        $user->save();
+
         $user->delete();
         return redirect()->back()->with(['success' =>  $user->name . ' sukses dihapus']);
     }

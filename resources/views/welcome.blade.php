@@ -84,7 +84,7 @@
                 </div>
             </section>
 
-<section class="container my-5">
+        <section class="container my-5">
         <!-- Title Section -->
         <h2 class="title-text">STATISTIC</h2>
 
@@ -96,7 +96,7 @@
                         <svg class="p-4" xmlns="http://www.w3.org/2000/svg" width="32" style="background: #ffe4e4; width:fit-content; height:fit-content; border-radius:50%;" height="32" viewBox="0 0 24 24" fill="none" stroke="red" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-users"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
                     </div>
                     <h4>Prodi</h4>
-                    <h2>58</h2>
+                    <h2>{{ $totalDepartments }}</h2>
                 </div>
             </div>
 
@@ -106,7 +106,7 @@
                         <svg class="p-4" xmlns="http://www.w3.org/2000/svg" width="32" style="background: #ffe4e4; width:fit-content; height:fit-content; border-radius:50%;" height="32" viewBox="0 0 24 24" fill="none" stroke="red" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-users"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
                     </div>
                     <h4>Fakultas</h4>
-                    <h2>10</h2>
+                    <h2>{{ $totalFaculties }}</h2>
                 </div>
             </div>
 
@@ -116,7 +116,7 @@
                         <svg class="p-4" xmlns="http://www.w3.org/2000/svg" width="32" height="32" style="background: #ffe4e4; width:fit-content; height:fit-content; border-radius:50%;" viewBox="0 0 24 24" fill="none" stroke="red" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-monitor"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
                     </div>
                     <h4>Cabang</h4>
-                    <h2>4</h2>
+                    <h2>{{ $totalBranches }}</h2>
                 </div>
             </div>
         </div>
@@ -129,7 +129,7 @@
                 </div>
             </div>
         </div>
-</section>
+        </section>
 
     {{-- <div class="my-5">
         r
@@ -138,36 +138,18 @@
     <section class="container my-5">
         <h2 class="title-text">Project Gallery</h2>
         <div class="row gy-5">
-            <div class="col-12 col-md-6">
-                <h3><b>Project Web Humic</b></h3>
-                <div class="gallery-card">
-                    <img class="img-fluid" src="{{ asset('assets/img/pg-1.png') }}" alt="pg-1">
+            @forelse ($projects as $project)
+                <div class="col-12 col-md-6">
+                    <h3><b>{{ $project->title }}</b></h3>
+                    <div class="gallery-card">
+                        <img class="img-fluid" src="{{ asset('storage/' . $project->thumbnail) }}" alt="pg-1">
+                    </div>
                 </div>
-            </div>
-            <div class="col-12 col-md-6">
-                <h3><b>Project Web Humic 2</b></h3>
-                <div class="gallery-card">
-                    <img class="img-fluid" src="{{ asset('assets/img/pg-2.png') }}" alt="pg-2">
+            @empty
+                <div class="col-12 col-md-6 w-100 text-center my-5">
+                    <h3><b>Ups! Belum ada project tersedia</b></h3>
                 </div>
-            </div>
-            <div class="col-12 col-md-6">
-                <h3><b>Project Humic</b></h3>
-                <div class="gallery-card">
-                    <img class="img-fluid" src="{{ asset('assets/img/pg-3.png') }}" alt="pg-3">
-                </div>
-            </div>
-            <div class="col-12 col-md-6">
-                <h3><b>Project Media Humic</b></h3>
-                <div class="gallery-card">
-                    <img class="img-fluid" src="{{ asset('assets/img/pg-4.png') }}" alt="pg-4">
-                </div>
-            </div>
-            <div class="col-12 col-md-6">
-                <h3><b>Project LinkedIN</b></h3>
-                <div class="gallery-card">
-                    <img class="img-fluid" src="{{ asset('assets/img/pg-5.png') }}" alt="pg-5">
-                </div>
-            </div>
+            @endforelse
         </div>
     </section>
 
@@ -175,22 +157,26 @@
 
 @push('js_scripts')
 <script>
+    const years = @json($usersGroupedByYear->pluck('year'));
+    const totalMembersData = @json($usersGroupedByYear->pluck('total_members'));
+    const activeMembersData = @json($activeUsersGroupedByYear->pluck('active_members'));
+
     const ctx = document.getElementById('myChart').getContext('2d');
     const myChart = new Chart(ctx, {
         type: 'bar',
         data: {
-            labels: ['2024', '2025', '2026', '2027', '2028'],
+            labels: years,
             datasets: [
                 {
                     label: 'Jumlah Member',
-                    data: [35, 40, 10, 10, 10], // Data untuk jumlah member
+                    data: totalMembersData,
                     backgroundColor: '#e74c3c', // Warna merah untuk jumlah member
                     borderColor: '#e74c3c',
                     borderWidth: 1
                 },
                 {
                     label: 'Status Aktif',
-                    data: [15, 15, 10, 10, 10], // Data untuk status aktif
+                    data: activeMembersData,
                     backgroundColor: '#ff7979', // Warna pink untuk status aktif
                     borderColor: '#ff7979',
                     borderWidth: 1

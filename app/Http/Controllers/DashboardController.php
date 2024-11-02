@@ -11,10 +11,47 @@ use Illuminate\Http\Request;
 
 class DashboardController extends Controller
 {
-    // Dashboard
-    public function dashboard(){
-        $members = User::where('isAdmin', 0)->get();
+    public function dashboard(Request $request) {
+        $query = User::query();
+
+        if ($request->filled('search')) {
+            $search = $request->search;
+            $query->where(function ($q) use ($search) {
+                $q->where('name', 'LIKE', '%' . $search . '%')
+                  ->orWhere('NIP', 'LIKE', '%' . $search . '%')
+                  ->orWhere('username', 'LIKE', '%' . $search . '%')
+                  ->orWhere('email', 'LIKE', '%' . $search . '%');
+            });
+        }
+
+        if ($request->filled('prodi') && $request->prodi !== 'All') {
+            $query->where('department', $request->prodi);
+        }
+
+        if ($request->filled('fakultas') && $request->fakultas !== 'All') {
+            $query->where('faculty', $request->fakultas);
+        }
+
+        if ($request->filled('cabang') && $request->cabang !== 'All') {
+            $query->where('branch', $request->cabang);
+        }
+
+        $entries = $request->input('entries', 10);
+
+        $members = $query->paginate($entries)->appends($request->all());
+
         return view('dashboard.dashboard', compact('members'));
+    }
+
+    public function getMemberById($id)
+    {
+        $member = User::find($id);
+
+        if ($member) {
+            return response()->json($member);
+        } else {
+            return response()->json(['message' => 'Member not found'], 404);
+        }
     }
 
     // Member Controller
@@ -43,7 +80,11 @@ class DashboardController extends Controller
         }
     }
 
-
+    public function memberDestroy($id){
+        $user = User::findOrFail($id);
+        $user->delete();
+        return redirect()->back()->with(['success' =>  $user->name . ' sukses dihapus']);
+    }
 
     // Announcement Controller
     public function announcementCreate(){

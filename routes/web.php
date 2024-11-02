@@ -16,9 +16,11 @@ Route::get('/project_gallery', [HomeController::class, 'project_gallery'])->name
 
 // Admin Panel routes
 Route::middleware(['auth', 'verified', 'admin'])->group(function () {
+    Route::get('/members/{id}', [DashboardController::class, 'getMemberById']);
     Route::get('/dashboard', [DashboardController::class, 'dashboard'])->name('dashboard');
     Route::get('/create-member', [DashboardController::class, 'memberCreate'])->name('member.create');
     Route::post('/create-member', [DashboardController::class, 'memberStore'])->name('member.store');
+    Route::delete('/delete-member/{id}', [DashboardController::class, 'memberDestroy'])->name('member.destroy');
     Route::get('/create-announcement', [DashboardController::class, 'announcementCreate'])->name('announcement.create');
     Route::post('/store-announcement', [DashboardController::class, 'announcementStore'])->name('announcement.store');
     Route::get('/project-gallery', [DashboardController::class, 'projectGallery'])->name('projectGallery.list');

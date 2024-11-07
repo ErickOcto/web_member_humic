@@ -64,3 +64,23 @@ Route::middleware('auth')->group(function () {
 //Mobile Authentication
 Route::post('api/login', [AuthController::class, 'login'])->withoutMiddleware([VerifyCsrfToken::class]);;
 Route::post('api/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum')->withoutMiddleware([VerifyCsrfToken::class]);;
+
+use App\Http\Controllers\Api\ApiDashboardController;
+
+Route::middleware(['auth:sanctum', 'admin'])->group(function () {
+    // Members API
+    Route::get('api/members', [ApiDashboardController::class, 'dashboard']);
+    Route::get('api/members/{id}', [ApiDashboardController::class, 'getMemberById']);
+    Route::post('api/members', [ApiDashboardController::class, 'memberStore'])->withoutMiddleware([VerifyCsrfToken::class]);
+    Route::delete('api/members/{id}', [ApiDashboardController::class, 'memberDestroy']);
+
+
+    // Announcements API
+    Route::post('api/announcements', [ApiDashboardController::class, 'storeAnnouncement']); // Create a new announcement
+    Route::get('api/announcements', [ApiDashboardController::class, 'getAnnouncements']); // Get all announcements
+
+    // Project Gallery API
+    Route::get('api/project-gallery', [ApiDashboardController::class, 'getProjectGallery']); // Get all project gallery items
+    Route::post('api/project-gallery/{id}/approve', [ApiDashboardController::class, 'approveProjectGallery']); // Approve a project gallery item
+    Route::post('api/project-gallery/{id}/status', [ApiDashboardController::class, 'updateProjectMemberStatus']); // Update project status and comments
+});

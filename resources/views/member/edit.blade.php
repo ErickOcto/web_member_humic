@@ -39,6 +39,7 @@
 
 
     <h2 class="gradient-red"><b>Edit Profile</b></h2>
+    <div class="divider"></div>
 
     <div class="row">
         <div class="col-12">

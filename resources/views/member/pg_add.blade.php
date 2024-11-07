@@ -39,6 +39,7 @@
 
 
     <h2 class="gradient-red"><b>Add Project</b></h2>
+    <div class="divider"></div>
 
     <div class="row">
         <div class="col-12 col-lg-6 offset-lg-3 col-md-8 offset-md-2">

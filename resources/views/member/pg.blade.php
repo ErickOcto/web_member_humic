@@ -3,6 +3,7 @@
 @section('dashboard-content')
 
     <h2 class="gradient-red"><b>Project Gallery</b></h2>
+    <div class="divider"></div>
 
     <section class="row">
         <div class="col-12 text-end">

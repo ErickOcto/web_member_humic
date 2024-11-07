@@ -32,6 +32,7 @@
 @section('dashboard-content')
 
     <h2 class="gradient-red"><b>Member History</b></h2>
+    <div class="divider"></div>
 
 <div class="card p-3 shadow-lg border-0" style="border-radius: 20px">
     <div class="d-flex justify-content-between align-items-center">

@@ -3,6 +3,7 @@
 @section('dashboard-content')
 
     <h2 class="gradient-red"><b>Project Gallery Review</b></h2>
+    <div class="divider"></div>
 
 <div class="col-12 col-md-10 offset-md-1 col-lg-8 offset-lg-2">
     @csrf

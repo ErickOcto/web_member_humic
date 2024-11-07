@@ -9,6 +9,14 @@
     <link rel="stylesheet" href="{{ asset('assets/css/dashboard.css') }}">
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 
+    <style>
+    .divider {
+        width: 100%;
+        height: 2px;
+        background-color: #e30000;
+        margin: 20px 0;
+    }
+    </style>
     @stack('css_scripts')
 </head>
 <body>

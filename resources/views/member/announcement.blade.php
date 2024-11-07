@@ -83,6 +83,7 @@
 
 @section('dashboard-content')
     <h2 class="gradient-red"><b>Announcement</b></h2>
+    <div class="divider"></div>
 
     <div class="row">
         <div class="col-12" style="min-height: 100vh">

@@ -52,6 +52,24 @@
                     </div>
                     <div class="col-12 col-lg-6">
                         <div class="mb-3">
+                          <label class="form-label">Posisi Display</label>
+                          <input required type="number" name="position" class="form-control @error('position') is-invalid @enderror">
+                            @error('position')
+                                <b class="text-danger mt-5">{{ $message }}</b>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-6">
+                        <div class="mb-3">
+                          <label class="form-label">Jabatan</label>
+                          <input required type="text" name="position_name" class="form-control @error('position_name') is-invalid @enderror">
+                            @error('position_name')
+                                <b class="text-danger mt-5">{{ $message }}</b>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-6">
+                        <div class="mb-3">
                           <label class="form-label">Password</label>
                           <input required type="password" name="password" class="form-control @error('password') is-invalid @enderror">
                             @error('password')

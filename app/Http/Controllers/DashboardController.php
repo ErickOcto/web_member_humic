@@ -74,6 +74,8 @@ class DashboardController extends Controller
                 'email' => 'required|string|unique:users,email',
                 'username' => 'required|string|unique:users,username',
                 'name' => 'required|string',
+                'position' => 'required|integer|in:123',
+                'position_name' => 'required|string'
             ]);
             User::create($validated);
             return redirect()->back()->with(['success' => 'Member sukses ditambahkan']);

@@ -33,6 +33,7 @@
     @endforeach
 
     <h2 class="gradient-red"><b>Dashboard</b></h2>
+    <div class="divider"></div>
 
     <div class="card border-0 member-dashboard" style="">
         <div class="row">

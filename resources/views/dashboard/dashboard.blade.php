@@ -22,6 +22,7 @@
 @section('dashboard-content')
 
     <h2 class="gradient-red"><b>Dashboard</b></h2>
+    <div class="divider"></div>
 
     <div class="row">
         <form method="GET" action="{{ route('dashboard') }}" id="entriesForm">

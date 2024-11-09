@@ -53,6 +53,7 @@
 @section('dashboard-content')
 
     <h2 class="gradient-red"><b>Create Announcement</b></h2>
+    <div class="divider"></div>
 
 <form method="POST" class="row" action="{{ route('announcement.store') }}" enctype="multipart/form-data">
     @csrf

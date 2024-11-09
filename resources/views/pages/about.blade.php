@@ -1,5 +1,16 @@
 @extends('layouts.landing')
 
+@push('css_scripts')
+<style>
+    .divider {
+        width: 100%;
+        height: 2px;
+        background-color: #ff0000;
+        margin: 20px 0;
+    }
+</style>
+@endpush
+
 @section('landing-content')
             <section class="container-fluid gradient-red text-white px-auto py-5 text-center">
                 <h1>
@@ -37,56 +48,40 @@
             </section>
 
             <section class="container">
-                <div class="row">
-                    <div class="col-12 col-lg-3 col-md-4 mb-3">
-                        <div class="card" style="width: 100%; height: 320px; background-image: url('https://humic.telkomuniversity.ac.id/wp-content/uploads/2020/06/profile_satria.jpg'); background-position: center; background-size: cover;">
-                            <p style="position: absolute; bottom: 10px; color: white; background-color: rgba(255, 0, 0, 0.65); width: 100%;" class="text-center">Satria Mandala, S.T., M.Sc., Ph.D.<br>
-                                <b>Director of Research Center</b>
-                            </p>
+                <div class="row d-flex justify-content-center">
+                    @foreach ($userOne as $itemOne)
+                        <div class="col-12 col-lg-3 col-md-4 mb-3">
+                            <div class="card" style="width: 100%; height: 320px; background-image: url({{"/storage/" . $itemOne->profile_picture}}); background-position: center; background-size: cover;">
+                                <p style="position: absolute; bottom: 10px; color: white; background-color: rgba(255, 0, 0, 0.65); width: 100%;" class="text-center">{{$itemOne->name}}<br>
+                                    <b>{{$itemOne->position_name}}</b>
+                                </p>
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-12 col-lg-3 col-md-4 mb-3">
-                        <div class="card" style="width: 100%; height: 320px; background-image: url('https://humic.telkomuniversity.ac.id/wp-content/uploads/2020/06/Putu-Harry-Gunawan.jpeg'); background-position: center; background-size: cover;">
-                            <p style="position: absolute; bottom: 10px; color: white; background-color: rgba(255, 0, 0, 0.65); width: 100%;" class="text-center">Dr. Putu Harry Gunawan, S.Si., M.Si., M.Sc.<br>
-                                <b>Vice Director of Research Center</b>
-                            </p>
+                    @endforeach
+                </div>
+                <div class="divider"></div>
+                <div class="row d-flex justify-content-center">
+                    @foreach ($userTwo as $itemTwo)
+                        <div class="col-12 col-lg-3 col-md-4 mb-3">
+                            <div class="card" style="width: 100%; height: 320px; background-image: url({{"/storage/" . $itemTwo->profile_picture}}); background-position: center; background-size: cover;">
+                                <p style="position: absolute; bottom: 10px; color: white; background-color: rgba(255, 0, 0, 0.65); width: 100%;" class="text-center">{{$itemTwo->name}}<br>
+                                    <b>{{$itemTwo->position_name}}</b>
+                                </p>
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-12 col-lg-3 col-md-4 mb-3">
-                        <div class="card" style="width: 100%; height: 320px; background-image: url('https://humic.telkomuniversity.ac.id/wp-content/uploads/2024/05/amilaa-1.png'); background-position: center; background-size: cover;">
-                            <p style="position: absolute; bottom: 10px; color: white; background-color: rgba(255, 0, 0, 0.65); width: 100%;" class="text-center">Amila Nafila Vidyana, S.I.Kom<br>
-                                <b>Staff</b>
-                            </p>
+                    @endforeach
+                </div>
+                <div class="divider"></div>
+                <div class="row d-flex justify-content-center">
+                    @foreach ($userThree as $itemThree)
+                        <div class="col-12 col-lg-3 col-md-4 mb-3">
+                            <div class="card" style="width: 100%; height: 320px; background-image: url({{"/storage/" . $itemThree->profile_picture}}); background-position: center; background-size: cover;">
+                                <p style="position: absolute; bottom: 10px; color: white; background-color: rgba(255, 0, 0, 0.65); width: 100%;" class="text-center">{{$itemThree->name}}<br>
+                                    <b>{{$itemThree->position_name}}</b>
+                                </p>
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-12 col-lg-3 col-md-4 mb-3">
-                        <div class="card" style="width: 100%; height: 320px; background-image: url('https://humic.telkomuniversity.ac.id/wp-content/uploads/2024/05/435A4423-1.jpg'); background-position: center; background-size: cover;">
-                            <p style="position: absolute; bottom: 10px; color: white; background-color: rgba(255, 0, 0, 0.65); width: 100%;" class="text-center">Muhammad Rakha, S.T<br>
-                                <b>Staff</b>
-                            </p>
-                        </div>
-                    </div>
-                    <div class="col-12 col-lg-3 col-md-4 mb-3">
-                        <div class="card" style="width: 100%; height: 320px; background-image: url('https://humic.telkomuniversity.ac.id/wp-content/uploads/2024/05/lastri-1.jpg'); background-position: center; background-size: cover;">
-                            <p style="position: absolute; bottom: 10px; color: white; background-color: rgba(255, 0, 0, 0.65); width: 100%;" class="text-center">Lastrimurni Dongoran, S.Kom<br>
-                                <b>Staff</b>
-                            </p>
-                        </div>
-                    </div>
-                    <div class="col-12 col-lg-3 col-md-4 mb-3">
-                        <div class="card" style="width: 100%; height: 320px; background-image: url('https://humic.telkomuniversity.ac.id/wp-content/uploads/2020/06/Adiwijaya.png'); background-position: center; background-size: cover;">
-                            <p style="position: absolute; bottom: 10px; color: white; background-color: rgba(255, 0, 0, 0.65); width: 100%;" class="text-center">Prof. Dr. Adiwijaya, S.Si., M.Si.<br>
-                                <b>Member</b>
-                            </p>
-                        </div>
-                    </div>
-                    <div class="col-12 col-lg-3 col-md-4 mb-3">
-                        <div class="card" style="width: 100%; height: 320px; background-image: url('https://humic.telkomuniversity.ac.id/wp-content/uploads/2024/05/image-10-1.png'); background-position: center; background-size: cover;">
-                            <p style="position: absolute; bottom: 10px; color: white; background-color: rgba(255, 0, 0, 0.65); width: 100%;" class="text-center">Prof. Dr. Tri Arief Sardjono, S.T., M.T.<br>
-                                <b>Member</b>
-                            </p>
-                        </div>
-                    </div>
+                    @endforeach
                 </div>
             </section>
 

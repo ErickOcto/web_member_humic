@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\ProjectGallery;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -34,7 +35,10 @@ class HomeController extends Controller
 
 
     public function about(){
-        return view('pages.about');
+        $userOne = User::wherePosition(1)->whereStatus(1)->where('isAdmin', 0)->get();
+        $userTwo = User::wherePosition(2)->whereStatus(1)->where('isAdmin', 0)->get();
+        $userThree = User::wherePosition(3)->whereStatus(1)->where('isAdmin', 0)->get();
+        return view('pages.about', compact('userOne', 'userTwo', 'userThree'));
     }
 
     public function contact(){

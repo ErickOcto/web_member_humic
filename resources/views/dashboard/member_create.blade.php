@@ -3,6 +3,7 @@
 @section('dashboard-content')
 
     <h2 class="gradient-red"><b>Create Member</b></h2>
+    <div class="divider"></div>
 
     <div class="row">
         <div class="col-12">
@@ -48,6 +49,24 @@
                           @error('username')
                               <b class="text-danger mt-5">Pastikan data benar</b>
                           @enderror
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-6">
+                        <div class="mb-3">
+                          <label class="form-label">Posisi Display</label>
+                          <input required type="number" name="position" class="form-control @error('position') is-invalid @enderror">
+                            @error('position')
+                                <b class="text-danger mt-5">{{ $message }}</b>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-6">
+                        <div class="mb-3">
+                          <label class="form-label">Jabatan</label>
+                          <input required type="text" name="position_name" class="form-control @error('position_name') is-invalid @enderror">
+                            @error('position_name')
+                                <b class="text-danger mt-5">{{ $message }}</b>
+                            @enderror
                         </div>
                     </div>
                     <div class="col-12 col-lg-6">

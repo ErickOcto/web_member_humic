@@ -8,6 +8,7 @@ use App\Models\Announcement;
 use App\Models\AnnouncementImage;
 use App\Models\ProjectGallery;
 use App\Models\User;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class ApiDashboardController extends Controller
@@ -100,5 +101,96 @@ class ApiDashboardController extends Controller
         return response()->json(['success' => $user->name . ' sukses dihapus']);
     }
 
+    public function storeAnnouncement(Request $request): JsonResponse
+    {
+        $validatedData = $request->validate([
+            'title' => 'required|string|max:255',
+            'description' => 'required|string',
+            'date' => 'required|date',
+            'time' => 'required',
+            'uploaded_files' => 'required|array',
+            'uploaded_files.*' => 'file|mimes:jpg,jpeg,png,gif|max:4096',
+        ]);
 
+        $announcement = Announcement::create([
+            'title' => $validatedData['title'],
+            'desc' => $validatedData['description'],
+            'date' => $validatedData['date'],
+            'time' => $validatedData['time'],
+        ]);
+
+        if ($request->hasFile('uploaded_files')) {
+            foreach ($request->file('uploaded_files') as $file) {
+                $path = $file->store('announcement_images', 'public');
+
+                AnnouncementImage::create([
+                    'announcement_id' => $announcement->id,
+                    'image' => $path,
+                ]);
+            }
+        }
+
+        BroadcastAnnouncement::dispatch($announcement->id);
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Announcement created successfully.',
+            'announcement' => $announcement,
+        ], 201);
+    }
+
+    public function getProjectGallery()
+    {
+        $items = ProjectGallery::all();
+
+        return response()->json([
+            'success' => true,
+            'data' => $items
+        ], 200);
+    }
+
+    public function getProjectGalleryById($id)
+    {
+        $item = ProjectGallery::find($id);
+
+        if (!$item) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Project gallery not found'
+            ], 404);
+        }
+
+        return response()->json([
+            'success' => true,
+            'data' => $item
+        ], 200);
+    }
+
+    public function updateProjectMemberStatus(Request $request, $id)
+    {
+        $validatedData = $request->validate([
+            'comment' => 'required|string',
+            'status' => 'required|in:Approved,Rejected,Need Revision,Waiting',
+        ]);
+
+        $item = ProjectGallery::find($id);
+
+        if (!$item) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Project gallery not found'
+            ], 404);
+        }
+
+        $item->update([
+            'comment' => $validatedData['comment'],
+            'status' => $validatedData['status'],
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Status and comment updated successfully',
+            'data' => $item
+        ], 200);
+    }
 }

@@ -54,11 +54,15 @@
                     <div class="col-12 col-lg-6">
                         <div class="mb-3">
                           <label class="form-label">Posisi Display</label>
-                          <input required type="number" name="position" class="form-control @error('position') is-invalid @enderror">
-                            @error('position')
-                                <b class="text-danger mt-5">{{ $message }}</b>
-                            @enderror
+                          <select class="form-select" aria-label="Default select example" name="position" required>
+                            <option value="Bandung">1</option>
+                            <option value="Jakarta">2</option>
+                            <option value="Surabaya">3</option>
+                          </select>
                         </div>
+                          @error('position')
+                              <b class="text-danger mt-5">Pastikan data benar</b>
+                          @enderror
                     </div>
                     <div class="col-12 col-lg-6">
                         <div class="mb-3">

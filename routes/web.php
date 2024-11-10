@@ -19,6 +19,7 @@ Route::middleware(['auth', 'verified', 'admin'])->group(function () {
     // Admin dashboard routes
     Route::get('/members/{id}', [DashboardController::class, 'getMemberById']);
     Route::get('/dashboard', [DashboardController::class, 'dashboard'])->name('dashboard');
+    Route::put('/changeMemberStatus/{id}', [DashboardController::class, 'changeMemberStatus'])->name('changeMemberStatus');
 
     //manage members routes
     Route::get('/create-member', [DashboardController::class, 'memberCreate'])->name('member.create');

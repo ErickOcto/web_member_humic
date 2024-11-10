@@ -94,6 +94,14 @@ class DashboardController extends Controller
         return redirect()->back()->with(['success' =>  $user->name . ' sukses dihapus']);
     }
 
+    public function changeMemberStatus($id){
+        $user = User::findOrFail($id);
+        $user->status = !$user->status;
+        $user->save();
+
+        return redirect()->back()->with(['success' => 'Status member ' . $user->name . ' sukses diubah']);
+    }
+
     // Announcement Controller
     public function announcementCreate(){
         return view('dashboard.announcement_create');

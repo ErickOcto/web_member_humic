@@ -99,9 +99,17 @@
                           <td>{{ $member->email }}</td>
                           <td>
                             @if($member->status)
-                                <span class="badge rounded-pill text-bg-success">Aktif</span>
+                                <form action="{{ route('changeMemberStatus', $member->id) }}" method="POST">
+                                    @csrf
+                                    @method('PUT')
+                                    <button class="badge border-0 rounded-pill text-bg-success">Aktif</button>
+                                </form>
                             @else
-                                <span class="badge rounded-pill text-bg-danger">Tidak Aktif</span>
+                                <form action="{{ route('changeMemberStatus', $member->id) }}" method="POST">
+                                    @csrf
+                                    @method('PUT')
+                                    <button class="badge border-0 rounded-pill text-bg-danger">Tidak Aktif</button>
+                                </form>
                             @endif
                           </td>
                           <td>{{ $member->department }}</td>

@@ -32,13 +32,17 @@ class HomeController extends Controller
 
 
 
-
-
     public function about(){
         $userOne = User::wherePosition(1)->whereStatus(1)->where('isAdmin', 0)->get();
         $userTwo = User::wherePosition(2)->whereStatus(1)->where('isAdmin', 0)->get();
         $userThree = User::wherePosition(3)->whereStatus(1)->where('isAdmin', 0)->get();
         return view('pages.about', compact('userOne', 'userTwo', 'userThree'));
+    }
+
+    public function memberDetail($id){
+        $user = User::findOrFail($id);
+
+        return view('pages.member', compact('user'));
     }
 
     public function contact(){

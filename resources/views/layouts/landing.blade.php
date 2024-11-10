@@ -18,7 +18,7 @@
 
     @stack('css_scripts')
 </head>
-<body>
+<body >
 
 
         <!-- START""NAVBAR -->
@@ -27,8 +27,9 @@
 
 
         <!-- START::CONTENT -->
-
+        <div style="min-height: 90vh;">
             @yield('landing-content')
+        </div>
 
         <!-- END::CONTENT -->
 

@@ -50,37 +50,41 @@
             <section class="container">
                 <div class="row d-flex justify-content-center">
                     @foreach ($userOne as $itemOne)
-                        <div class="col-12 col-lg-3 col-md-4 mb-3">
-                            <div class="card" style="width: 100%; height: 320px; background-image: url({{"/storage/" . $itemOne->profile_picture}}); background-position: center; background-size: cover;">
-                                <p style="position: absolute; bottom: 10px; color: white; background-color: rgba(255, 0, 0, 0.65); width: 100%;" class="text-center">{{$itemOne->name}}<br>
+                        <a href="{{ route('memberDetail', $itemOne->id) }}" class="col-12 col-lg-3 col-md-4 mb-3">
+                            <div class="card" style="width: 100%; height: 320px;
+                                background-image: url({{ $itemOne->profile_picture ? "/storage/" . $itemOne->profile_picture : 'https://upload.wikimedia.org/wikipedia/en/thumb/b/b1/Portrait_placeholder.png/400px-Portrait_placeholder.png' }});
+                                background-position: center;
+                                background-size: cover;">
+                                <p style="position: absolute; bottom: 10px; color: white; background-color: rgba(255, 0, 0, 0.65); width: 100%;" class="text-center">
+                                    {{$itemOne->name}}<br>
                                     <b>{{$itemOne->position_name}}</b>
                                 </p>
                             </div>
-                        </div>
+                        </a>
                     @endforeach
                 </div>
                 <div class="divider"></div>
                 <div class="row d-flex justify-content-center">
                     @foreach ($userTwo as $itemTwo)
-                        <div class="col-12 col-lg-3 col-md-4 mb-3">
-                            <div class="card" style="width: 100%; height: 320px; background-image: url({{"/storage/" . $itemTwo->profile_picture}}); background-position: center; background-size: cover;">
+                        <a href="{{ route('memberDetail', $itemTwo->id) }}" class="col-12 col-lg-3 col-md-4 mb-3">
+                            <div class="card" style="width: 100%; height: 320px; background-image: url({{ $itemTwo->profile_picture ? "/storage/" . $itemTwo->profile_picture : 'https://upload.wikimedia.org/wikipedia/en/thumb/b/b1/Portrait_placeholder.png/400px-Portrait_placeholder.png' }}); background-position: center; background-size: cover;">
                                 <p style="position: absolute; bottom: 10px; color: white; background-color: rgba(255, 0, 0, 0.65); width: 100%;" class="text-center">{{$itemTwo->name}}<br>
                                     <b>{{$itemTwo->position_name}}</b>
                                 </p>
                             </div>
-                        </div>
+                        </a>
                     @endforeach
                 </div>
                 <div class="divider"></div>
                 <div class="row d-flex justify-content-center">
                     @foreach ($userThree as $itemThree)
-                        <div class="col-12 col-lg-3 col-md-4 mb-3">
-                            <div class="card" style="width: 100%; height: 320px; background-image: url({{"/storage/" . $itemThree->profile_picture}}); background-position: center; background-size: cover;">
+                        <a href="{{ route('memberDetail', $itemThree->id) }}" class="col-12 col-lg-3 col-md-4 mb-3">
+                            <div class="card" style="width: 100%; height: 320px; background-image: url({{ $itemThree->profile_picture ? "/storage/" . $itemThree->profile_picture : 'https://upload.wikimedia.org/wikipedia/en/thumb/b/b1/Portrait_placeholder.png/400px-Portrait_placeholder.png' }}); background-position: center; background-size: cover;">
                                 <p style="position: absolute; bottom: 10px; color: white; background-color: rgba(255, 0, 0, 0.65); width: 100%;" class="text-center">{{$itemThree->name}}<br>
                                     <b>{{$itemThree->position_name}}</b>
                                 </p>
                             </div>
-                        </div>
+                        </a>
                     @endforeach
                 </div>
             </section>

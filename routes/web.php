@@ -8,11 +8,10 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'home'])->name('home');
 Route::get('/about', [HomeController::class, 'about'])->name('about');
+Route::get('/about/member/{id}', [HomeController::class, 'memberDetail'])->name('memberDetail');
 Route::get('/contact', [HomeController::class, 'contact'])->name('contact');
 Route::get('/statistics', [HomeController::class, 'statistics'])->name('statistics');
 Route::get('/project_gallery', [HomeController::class, 'project_gallery'])->name('project_gallery');
-
-// Route::get('/dashboard', [DashboardController::class, 'dashboard'])->name('dashboard');
 
 // Admin Panel routes
 Route::middleware(['auth', 'verified', 'admin'])->group(function () {
@@ -42,10 +41,10 @@ Route::middleware(['auth', 'verified', 'admin'])->group(function () {
 
 // Member panel routes
 Route::middleware(['auth', 'verified', 'member'])->group(function () {
-    Route::get('/member/dashboard', [MemberController::class, 'dashboard'])->name('member.dashboard');
-    Route::put('/member/seen/{id}', [MemberController::class, 'seen'])->name('seen');
-    Route::get('/member/edit/{id}', [MemberController::class, 'edit'])->name('member.edit');
-    Route::put('/member/update/{id}', [MemberController::class, 'update'])->name('member.put');
+    Route::get('member/dashboard', [MemberController::class, 'dashboard'])->name('member.dashboard');
+    Route::put('member/seen/{id}', [MemberController::class, 'seen'])->name('seen');
+    Route::get('member/edit/{id}', [MemberController::class, 'edit'])->name('member.edit');
+    Route::put('member/update/{id}', [MemberController::class, 'update'])->name('member.put');
     Route::get('member/pg', [MemberController::class, 'pg'])->name('member.pg');
     Route::get('member/pgAdd', [MemberController::class, 'pgAdd'])->name('member.pgAdd');
     Route::post('member/pgStore', [MemberController::class, 'pgStore'])->name('member.pgStore');

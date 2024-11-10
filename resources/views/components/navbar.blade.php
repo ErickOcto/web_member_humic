@@ -27,7 +27,7 @@
                   @if(!Auth::check())
                     <a href="{{ route('login') }}" class="btn btn-outline-dark" style="width: 160px;">LOGIN</a>
                   @else
-                    <p class="my-auto">Hello!, <b class="text-danger">{{ Auth::user()->name }}</b></p>
+                    <p class="my-auto">Hello!, <a href="{{ Auth::user()->isAdmin == 1 ? '/dashboard' : '/member/dashboard' }}" class="text-danger">{{ Auth::user()->name }}</a></p>
                   @endif
                 </div>
               </div>

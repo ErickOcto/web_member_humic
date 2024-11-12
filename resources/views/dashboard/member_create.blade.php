@@ -55,9 +55,9 @@
                         <div class="mb-3">
                           <label class="form-label">Posisi Display</label>
                           <select class="form-select" aria-label="Default select example" name="position" required>
-                            <option value="Bandung">1</option>
-                            <option value="Jakarta">2</option>
-                            <option value="Surabaya">3</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
                           </select>
                         </div>
                           @error('position')

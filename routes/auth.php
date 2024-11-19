@@ -66,6 +66,7 @@ Route::post('api/login', [AuthController::class, 'login'])->withoutMiddleware([V
 Route::post('api/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum')->withoutMiddleware([VerifyCsrfToken::class]);;
 
 use App\Http\Controllers\Api\ApiDashboardController;
+use App\Http\Controllers\API\ApiHomeController;
 use App\Http\Controllers\Api\ApiMemeberController;
 use App\Http\Controllers\API\ApiProfileController;
 
@@ -76,29 +77,33 @@ Route::middleware(['auth:sanctum', 'admin'])->group(function () {
     Route::post('api/members', [ApiDashboardController::class, 'memberStore'])->withoutMiddleware([VerifyCsrfToken::class]);
     Route::delete('api/members/{id}', [ApiDashboardController::class, 'memberDestroy'])->withoutMiddleware([VerifyCsrfToken::class]);;
 
-
     // Announcements API
     Route::post('api/announcements', [ApiDashboardController::class, 'storeAnnouncement'])->withoutMiddleware([VerifyCsrfToken::class]);
     Route::get('api/announcements', [ApiDashboardController::class, 'getAnnouncements'])->withoutMiddleware([VerifyCsrfToken::class]);
 
     // Project Gallery API
-    Route::get('api/project-gallery', [ApiDashboardController::class, 'getProjectGallery']); // Get all project gallery items
-    Route::get('api/project-gallery/{id}', [ApiDashboardController::class, 'getProjectGalleryById']); // Approve a project gallery item
+    Route::get('api/project-gallery', [ApiDashboardController::class, 'getProjectGallery'])->withoutMiddleware([VerifyCsrfToken::class]); // Get all project gallery items
+    Route::get('api/project-gallery/{id}', [ApiDashboardController::class, 'getProjectGalleryById'])->withoutMiddleware([VerifyCsrfToken::class]);  // Approve a project gallery item
     Route::put('api/project-gallery/{id}/status', [ApiDashboardController::class, 'updateProjectMemberStatus'])->withoutMiddleware([VerifyCsrfToken::class]);
-});
 
+    Route::get('api/member-history', [ApiDashboardController::class, 'memberHistoryAPI']);
+
+    Route::patch('api/user/{id}/status', [ApiDashboardController::class, 'changeMemberStatusApi'])->withoutMiddleware([VerifyCsrfToken::class]);
+});
 Route::middleware(['auth:sanctum', 'member'])->group(function () {
-    Route::get('api/member/dashboard', [ApiMemeberController::class, 'getDashboard']);
-    Route::patch('api/member/announcement/{id}/seen', [ApiMemeberController::class, 'markSeen']);
-    Route::get('api/member/{id}/details', [ApiMemeberController::class, 'getMemberDetails']);
-    Route::put('api/member/{id}/update-profile', [ApiMemeberController::class, 'updateMemberProfile']);
+    Route::get('api/memberprofile', [ApiMemeberController::class, 'showProfile'])->withoutMiddleware([VerifyCsrfToken::class]);
+    Route::put('api/memberprofile/update/{id}', [ApiMemeberController::class, 'updateMemberProfile'])->withoutMiddleware(['web', 'VerifyCsrfToken']);
     Route::get('api/member/project-gallery', [ApiMemeberController::class, 'getProjectGallery']);
-    Route::post('api/member/project-gallery', [ApiMemeberController::class, 'addProjectGalleryItem']);
+    Route::post('api/member/project-gallery/add', [ApiMemeberController::class, 'addProjectGalleryItem'])->withoutMiddleware([VerifyCsrfToken::class]);
     Route::get('api/member/announcements', [ApiMemeberController::class, 'getAnnouncements']);
 });
 
-Route::middleware('auth:sanctum')->group(function () {
-    Route::get('api/profile', [ApiProfileController::class, 'getProfile']);
-    Route::put('api/profile', [ApiProfileController::class, 'updateProfile']);
-    Route::delete('api/profile', [ApiProfileController::class, 'deleteAccount']);
-});
+
+
+Route::get('api/approved-projects', [ApiHomeController::class, 'getApprovedProjects']);
+Route::get('api/home', [ApiHomeController::class, 'homeApi']);
+Route::get('api/about', [ApiHomeController::class, 'about']);
+Route::get('api/about/member/{id}', [ApiHomeController::class, 'memberDetail']);
+
+
+

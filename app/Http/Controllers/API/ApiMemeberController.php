@@ -10,42 +10,51 @@ use App\Models\User;
 use App\Models\UserAnnouncement;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 
 class ApiMemeberController extends Controller
 {
-    public function getDashboard()
-    {
-        $userId = Auth::id();
-        $unread = UserAnnouncement::where('user_id', $userId)->where('status', 0)->get();
 
-        return response()->json(['unread_announcements' => $unread]);
-    }
-
-    // Mark a specific announcement as seen
-    public function markSeen($id)
+    public function showProfile()
     {
-        $user = UserAnnouncement::where('user_id', Auth::id())
-                                ->where('announcement_id', $id)
-                                ->where('status', 0)
-                                ->first();
-        if ($user) {
-            $user->update(['status' => 1]);
-            return response()->json(['message' => 'Announcement marked as seen']);
+        $user = User::find(Auth::id());
+
+        if (!$user) {
+            return response()->json(['error' => 'User not authenticated'], 401);
         }
-
-        return response()->json(['error' => 'Announcement not found or already seen'], 404);
+        $user->load('eduBackground');
+        return response()->json([
+            'success' => true,
+            'data' => [
+                'id' => $user->id,
+                'name' => $user->name,
+                'NIP' => $user->NIP,
+                'faculty' => $user->faculty,
+                'department' => $user->department,
+                'handphone' => $user->handphone,
+                'birthday' => $user->birthday,
+                'gender' => $user->gender,
+                'religion' => $user->religion,
+                'address' => $user->address,
+                'profile_picture' => $user->profile_picture,
+                'eduBackground' => $user->eduBackground, // Pastikan relasi ini benar
+                'status' => $user->status,
+            ]
+        ]);
     }
 
-    // Get details for editing member profile
-    public function getMemberDetails($id)
-    {
-        $member = User::findOrFail($id);
-        return response()->json(['member' => $member]);
-    }
-
-    // Update member profile
     public function updateMemberProfile(Request $request, $id)
     {
+        Log::info('Authorization Header:', [$request->header('Authorization')]);
+        Log::info('Authenticated User:', [auth('sanctum')->user()]);
+        Log::info('All Input:', $request->all()); // Log semua input
+        Log::info('Files:', $request->file());
+        if (Auth::id() != $id) {
+            return response()->json(['error' => 'Unauthorized action'], 403);
+        }
+
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
             'NIP' => 'required|string|max:20',
@@ -65,38 +74,44 @@ class ApiMemeberController extends Controller
             'institution.*' => 'required|string',
         ]);
 
-        $member = User::findOrFail($id);
+        DB::transaction(function () use ($request, $validatedData, $id) {
+            $member = User::findOrFail($id);
+            $member->fill($validatedData);
 
-        $member->update($validatedData);
+            if ($request->hasFile('profile_picture')) {
+                if ($member->profile_picture) {
+                    Storage::disk('public')->delete($member->profile_picture);
+                }
+                $profilePicture = $request->file('profile_picture');
+                $path = $profilePicture->store('profile_pictures', 'public');
+                $member->profile_picture = $path;
+            }
 
-        if ($request->hasFile('profile_picture')) {
-            $profilePicture = $request->file('profile_picture');
-            $path = $profilePicture->store('profile_pictures', 'public');
-            $member->profile_picture = $path;
-        }
+            $member->save();
 
-        $member->save();
+            EduBackground::where('user_id', $member->id)->delete();
 
-        $userId = $member->id;
+            if (count($request->level) === count($request->major) && count($request->major) === count($request->institution)) {
+                $educationData = [];
+                foreach ($request->level as $index => $level) {
+                    $educationData[] = [
+                        'user_id' => $member->id,
+                        'level' => $level,
+                        'major' => $request->major[$index],
+                        'institution' => $request->institution[$index],
+                        'created_at' => now(),
+                        'updated_at' => now(),
+                    ];
+                }
+                EduBackground::insert($educationData);
+            } else {
+                throw new \Exception("The education data arrays are not synchronized.");
+            }
+        });
 
-        EduBackground::where('user_id', $userId)->delete();
-
-        $educationData = [];
-        foreach ($request->level as $index => $level) {
-            $educationData[] = [
-                'user_id' => $userId,
-                'level' => $level,
-                'major' => $request->major[$index],
-                'institution' => $request->institution[$index],
-                'created_at' => now(),
-                'updated_at' => now(),
-            ];
-        }
-
-        EduBackground::insert($educationData);
-
-        return response()->json(['message' => 'Profile updated successfully']);
+        return response()->json(['message' => 'Profile updated successfully'], 200);
     }
+
 
     // Get user's project gallery items
     public function getProjectGallery()
@@ -123,14 +138,16 @@ class ApiMemeberController extends Controller
 
         $validatedData['user_id'] = Auth::id();
 
-        ProjectGallery::create($validatedData);
+        $projectGallery = ProjectGallery::create($validatedData);
 
-        return response()->json(['message' => 'Project added successfully']);
+        return response()->json(['message' => 'Project added successfully', 'project_gallery' => $projectGallery]);
     }
+
 
     public function getAnnouncements()
     {
-        $announcements = Announcement::all();
+        $announcements = Announcement::with('images')->orderBy('created_at', 'asc')->get();
         return response()->json(['announcements' => $announcements]);
     }
+
 }

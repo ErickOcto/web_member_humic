@@ -6,8 +6,10 @@ use App\Http\Controllers\Controller;
 use App\Jobs\BroadcastAnnouncement;
 use App\Models\Announcement;
 use App\Models\AnnouncementImage;
+use App\Models\LoginHistory;
 use App\Models\ProjectGallery;
 use App\Models\User;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -77,6 +79,8 @@ class ApiDashboardController extends Controller
                 'email' => 'required|string|unique:users,email',
                 'username' => 'required|string|unique:users,username',
                 'name' => 'required|string',
+                'position' => 'required|integer|in:1,2,3',
+                'position_name' => 'required|string'
             ]);
 
             // Tambahkan hash pada password
@@ -88,7 +92,7 @@ class ApiDashboardController extends Controller
             return response()->json(['success' => 'Member sukses ditambahkan', 'user' => $user], 201);
 
         } catch (\Illuminate\Validation\ValidationException $e) {
-            return response()->json(['error' => 'Member gagal ditambahkan, periksa input Anda.', 'errors' => $e->errors()], 422);
+            return response()->json(['error' => 'Member gagal ditambahkan, Email atau Username sudah digunakan', 'errors' => $e->errors()], 422);
         }
     }
 
@@ -193,4 +197,62 @@ class ApiDashboardController extends Controller
             'data' => $item
         ], 200);
     }
+
+    public function memberHistoryAPI(Request $request)
+    {
+        $query = LoginHistory::with('user');
+
+        if ($request->has('search') && $request->search != '') {
+            $search = $request->search;
+            $query->whereHas('user', function ($q) use ($search) {
+                $q->where('name', 'like', '%' . $search . '%')
+                ->orWhere('username', 'like', '%' . $search . '%')
+                ->orWhere('email', 'like', '%' . $search . '%');
+            });
+        }
+
+        $entries = $request->input('entries', 10);
+
+        $order = $request->input('order', 'desc');
+
+        $query->orderBy('login_at', $order);
+
+        $users = $query->paginate($entries)->appends($request->all());
+
+        return response()->json($users, 200);
+    }
+
+    public function changeMemberStatusApi($id)
+    {
+        try {
+            $user = User::findOrFail($id);
+            $user->status = !$user->status;
+            $user->save();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Status of member ' . $user->name . ' has been successfully changed.',
+                'data' => [
+                    'id' => $user->id,
+                    'name' => $user->name,
+                    'status' => $user->status
+                ]
+            ], 200);
+
+        } catch (ModelNotFoundException $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'User not found'
+            ], 404);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'An error occurred while updating the status',
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+
+
 }

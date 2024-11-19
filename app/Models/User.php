@@ -65,7 +65,7 @@ class User extends Authenticatable
 
     public function eduBackground()
     {
-        return $this->hasMany(EduBackground::class);
+        return $this->hasMany(EduBackground::class, 'user_id');
     }
 
     public function projectGallery()

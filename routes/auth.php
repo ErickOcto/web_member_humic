@@ -92,7 +92,7 @@ Route::middleware(['auth:sanctum', 'admin'])->group(function () {
 });
 Route::middleware(['auth:sanctum', 'member'])->group(function () {
     Route::get('api/memberprofile', [ApiMemeberController::class, 'showProfile'])->withoutMiddleware([VerifyCsrfToken::class]);
-    Route::put('api/memberprofile/update/{id}', [ApiMemeberController::class, 'updateMemberProfile'])->withoutMiddleware(['web', 'VerifyCsrfToken']);
+    Route::post('api/memberprofile/update/{id}', [ApiMemeberController::class, 'updateMemberProfile'])->withoutMiddleware(['web', 'VerifyCsrfToken']);
     Route::get('api/member/project-gallery', [ApiMemeberController::class, 'getProjectGallery']);
     Route::post('api/member/project-gallery/add', [ApiMemeberController::class, 'addProjectGalleryItem'])->withoutMiddleware([VerifyCsrfToken::class]);
     Route::get('api/member/announcements', [ApiMemeberController::class, 'getAnnouncements']);
